@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import UserProfile, Category, Tag, Post, Event, ContactMessage
+from .models import UserProfile, Category, Tag, Post, Event, ContactMessage, GalleryImage
 
 
 class UserProfileInline(admin.StackedInline):
@@ -73,7 +73,11 @@ class EventAdmin(admin.ModelAdmin):
             'fields': ('organizer', 'speakers', 'capacity', 'registered', 'tags')
         }),
     )
-
+    
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'event', 'published', 'uploaded_at')
+    list_filter = ('event', 'published')
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.html import format_html
-from .models import User, Category, Tag, BlogPost, Event, ContactMessage
+from .models import User, Category, Tag, BlogPost, Event, ContactMessage, GalleryImage
 
 
 @admin.register(User)
@@ -112,7 +112,7 @@ class EventAdmin(admin.ModelAdmin):
             'fields': ('organizer', 'speakers', 'tags')
         }),
         ('Inscrições', {
-            'fields': ('capacity', 'registered', 'registration_required', 'price')
+            'fields': ('capacity', 'registered', 'registration_required', 'price', 'registration_link')
         }),
         ('Status e Destaque', {
             'fields': ('status', 'featured')
@@ -130,6 +130,26 @@ class EventAdmin(admin.ModelAdmin):
             color, obj.registered, obj.capacity, round(percentage, 1)
         )
     registered_capacity.short_description = 'Inscritos/Capacidade'
+
+
+# ----------------------------------------------------
+# 🌟 NOVO: Registro do modelo GalleryImage para a galeria
+# ----------------------------------------------------
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'event', 'published', 'uploaded_at')
+    list_filter = ('published', 'event')
+    search_fields = ('title', 'description')
+    ordering = ('-uploaded_at',)
+    
+    fieldsets = (
+        ('Detalhes da Imagem', {
+            'fields': ('title', 'image', 'description', 'event')
+        }),
+        ('Publicação', {
+            'fields': ('published',)
+        }),
+    )
 
 
 @admin.register(ContactMessage)

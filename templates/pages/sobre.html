@@ -1,58 +1,197 @@
-{% extends 'base.html' %} {% block title %}Sobre - NEABI{% endblock %}
- {% block content %}
-<section class="py-16 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl font-bold text-gray-900 mb-8 text-center">
-      Sobre o
-      <span
-        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-red-700"
-        >NEABI</span
-      >
-    </h1>
+{% extends 'base.html' %}
+{% block title %}Sobre - NEABI{% endblock %}
 
-    <div class="prose prose-lg max-w-none">
-      <p class="text-xl text-gray-600 mb-8 text-center">
-        O Núcleo de Estudos Afro-Brasileiros e Indígenas (NEABI) é um espaço
-        dedicado à promoção da educação antirracista e da diversidade
-        étnico-racial.
-      </p>
+{% block content %}
 
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
-        <div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">Nossa Missão</h2>
-          <p class="text-gray-600">
-            Promover a educação antirracista através de pesquisas, eventos e
-            ações que valorizem a cultura afro-brasileira e indígena,
-            contribuindo para uma sociedade mais justa e igualitária.
-          </p>
-        </div>
+<!-- HERO -->
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-amber-50">
+    <div class="max-w-7xl mx-auto text-center">
+        <span class="inline-flex items-center rounded-full bg-amber-100 text-amber-800 px-3 py-1 text-xs font-semibold mb-4">
+            Sobre o NEABI
+        </span>
 
-        <div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">Nossa Visão</h2>
-          <p class="text-gray-600">
-            Ser referência na promoção da diversidade étnico-racial e na
-            construção de uma educação verdadeiramente inclusiva e antirracista.
-          </p>
-        </div>
-      </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Núcleo de Estudos Afro-Brasileiros e Indígenas
+            </span>
+        </h1>
 
-      <h2 class="text-2xl font-bold text-gray-900 mb-4">Nossos Objetivos</h2>
-      <ul class="list-disc list-inside text-gray-600 space-y-2 mb-8">
-        <li>Desenvolver pesquisas sobre questões étnico-raciais</li>
-        <li>Promover eventos educativos e culturais</li>
-        <li>Capacitar educadores para uma educação antirracista</li>
-        <li>Criar espaços de diálogo sobre diversidade e inclusão</li>
-        <li>Valorizar as culturas afro-brasileira e indígena</li>
-      </ul>
-
-      <div class="bg-amber-50 p-6 rounded-lg">
-        <h3 class="text-xl font-bold text-gray-900 mb-2">Participe!</h3>
-        <p class="text-gray-600">
-          Venha fazer parte da nossa comunidade e contribuir para a construção
-          de uma sociedade mais justa e igualitária.
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Órgão propositivo e consultivo voltado para a valorização, estudo e disseminação das culturas afro-brasileiras e indígenas, conforme as Leis nº 10.639/2003 e nº 11.645/2008.
         </p>
-      </div>
     </div>
-  </div>
 </section>
+
+<!-- MISSÃO E VISÃO -->
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+
+        <!-- Missão -->
+        <div class="rounded-lg border border-l-4 border-l-amber-600 bg-white shadow-sm p-6">
+            <h3 class="text-2xl font-semibold mb-4 flex items-center gap-3">
+                <i class="lucide lucide-target text-amber-600"></i> Nossa Missão
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+                Promover a diversidade étnico-racial por meio da educação, pesquisa e extensão, valorizando tradições e saberes afro-brasileiros e indígenas.
+            </p>
+        </div>
+
+        <!-- Visão -->
+        <div class="rounded-lg border border-l-4 border-l-red-600 bg-white shadow-sm p-6">
+            <h3 class="text-2xl font-semibold mb-4 flex items-center gap-3">
+                <i class="lucide lucide-heart text-red-600"></i> Nossa Visão
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+                Ser referência nacional na promoção da educação das relações étnico-raciais.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- OBJETIVOS -->
+
+
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Nossos Objetivos</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            Atuamos em quatro pilares fundamentais para promover a diversidade e inclusão no ambiente acadêmico.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+
+        <div class="rounded-lg border bg-white text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="flex justify-center mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-600 to-red-700 rounded-lg flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
+                    </div>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Ensino</h3>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">
+                    Inserir conteúdos sobre relações étnico-raciais nos cursos da instituição.
+                </p>
+            </div>
+        </div>
+
+        <div class="rounded-lg border bg-white text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="flex justify-center mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-600 to-red-700 rounded-lg flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+                    </div>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Pesquisa</h3>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">
+                    Incentivar estudos sobre História Africana e Cultura Afro-Brasileira.
+                </p>
+            </div>
+        </div>
+
+        <div class="rounded-lg border bg-white text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="flex justify-center mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-600 to-red-700 rounded-lg flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Extensão</h3>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">
+                    Realizar eventos, oficinas e ações culturais.
+                </p>
+            </div>
+        </div>
+
+        <div class="rounded-lg border bg-white text-center shadow-sm hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="flex justify-center mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-600 to-red-700 rounded-lg flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+                    </div>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Combate ao Racismo</h3>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">
+                    Garantir o cumprimento da legislação antirracista.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- EQUIPE -->
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="max-w-7xl mx-auto text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Nossa Equipe</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            Profissionais qualificados e comprometidos com a promoção da diversidade étnico-racial.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+
+        <div class="rounded-lg border bg-white shadow-sm text-center hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-amber-100 to-red-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap h-8 w-8 text-amber-600" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Prof. Dr. Ana Maria Santos</h3>
+                <p class="text-sm text-amber-600 font-medium">Coordenadora Geral</p>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">Doutora em História da África</p>
+            </div>
+        </div>
+
+        <div class="rounded-lg border bg-white shadow-sm text-center hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-amber-100 to-red-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap h-8 w-8 text-amber-600" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Prof. Ms. Carlos Eduardo Silva</h3>
+                <p class="text-sm text-amber-600 font-medium">Vice-Coordenador</p>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">Mestre em Antropologia Social</p>
+            </div>
+        </div>
+
+        <div class="rounded-lg border bg-white shadow-sm text-center hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-amber-100 to-red-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap h-8 w-8 text-amber-600" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Profa. Dra. Mariana Ribeiro</h3>
+                <p class="text-sm text-amber-600 font-medium">Coordenadora de Pesquisa</p>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">Doutora em Estudos Étnicos e Africanos</p>
+            </div>
+        </div>
+
+        <div class="rounded-lg border bg-white shadow-sm text-center hover:shadow-lg transition-shadow">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-amber-100 to-red-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap h-8 w-8 text-amber-600" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
+                </div>
+                <h3 class="font-semibold tracking-tight text-lg">Prof. Ms. José Antônio Lima</h3>
+                <p class="text-sm text-amber-600 font-medium">Coordenador de Extensão</p>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-gray-600 text-sm">Mestre em Cultura e Identidades Brasileiras</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

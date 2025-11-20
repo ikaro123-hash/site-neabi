@@ -3,19 +3,17 @@
 <nav class="bg-white shadow-lg border-b border-amber-100 relative z-40">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <!-- Logo -->
       <div class="flex items-center">
         <a href="{% url 'home' %}" class="flex items-center">
-          <div
-            class="w-10 h-10 bg-gradient-to-r from-amber-600 to-red-700 rounded-full flex items-center justify-center mr-3"
-          >
-            <span class="text-white font-bold text-lg">N</span>
-          </div>
+          <img
+            src="{% static 'img/neabi_logo_circular.png' %}"
+            alt="Logo NEABI"
+            class="w-10 h-10 object-contain mr-3"
+          />
           <div class="text-xl font-bold text-gray-900">NEABI</div>
         </a>
       </div>
 
-      <!-- Desktop Navigation -->
       <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-8">
           <a
@@ -31,7 +29,6 @@
             Sobre
           </a>
 
-          <!-- Projetos Dropdown -->
           <div class="relative group">
             <button
               class="{% if 'projetos' in request.resolver_match.url_name or 'eventos' in request.resolver_match.url_name %}text-amber-600 border-b-2 border-amber-600{% else %}text-gray-700 hover:text-amber-600{% endif %} px-3 py-2 text-sm font-medium transition-colors flex items-center"
@@ -70,7 +67,13 @@
               </div>
             </div>
           </div>
-
+          
+          <a
+            href="{% url 'galeria' %}"
+            class="{% if request.resolver_match.url_name == 'galeria' %}text-amber-600 border-b-2 border-amber-600{% else %}text-gray-700 hover:text-amber-600{% endif %} px-3 py-2 text-sm font-medium transition-colors"
+          >
+            Galeria
+          </a>
           <a
             href="{% url 'blog' %}"
             class="{% if 'blog' in request.resolver_match.url_name %}text-amber-600 border-b-2 border-amber-600{% else %}text-gray-700 hover:text-amber-600{% endif %} px-3 py-2 text-sm font-medium transition-colors"
@@ -85,8 +88,8 @@
           </a>
         </div>
       </div>
+      
 
-      <!-- User Menu -->
       <div class="hidden md:block">
         <div class="ml-4 flex items-center md:ml-6">
           {% if user.is_authenticated %}
@@ -142,7 +145,6 @@
         </div>
       </div>
 
-      <!-- Mobile menu button -->
       <div class="md:hidden">
         <button
           type="button"
@@ -176,25 +178,25 @@
     </div>
   </div>
 
-  <!-- Mobile menu -->
   <div class="md:hidden hidden" id="mobile-menu">
     <div
       class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200"
     >
-      <a
-        href="{% url 'home' %}"
-        class="{% if request.resolver_match.url_name == 'home' %}bg-amber-50 text-amber-600{% else %}text-gray-700 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-base font-medium"
-      >
-        Início
-      </a>
-      <a
+        <a href="{% url 'home' %}" class="flex items-center">
+          <img 
+            src="{% static 'img/neabi_logo_circular.png' %}" 
+            alt="Logo NEABI" 
+            class="w-10 h-10 object-cont"
+          >
+            <div class="text-xl font-bold text-gray-900">NEABI</div>
+          </a>
+        <a
         href="{% url 'sobre' %}"
         class="{% if request.resolver_match.url_name == 'sobre' %}bg-amber-50 text-amber-600{% else %}text-gray-700 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-base font-medium"
       >
         Sobre
       </a>
 
-      <!-- Mobile Projetos -->
       <div class="pl-3">
         <div class="text-gray-700 font-medium py-2">Projetos</div>
         <a
@@ -216,7 +218,13 @@
           Eventos
         </a>
       </div>
-
+      
+      <a
+        href="{% url 'galeria' %}"
+        class="{% if request.resolver_match.url_name == 'galeria' %}bg-amber-50 text-amber-600{% else %}text-gray-700 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-base font-medium"
+      >
+        Galeria
+      </a>
       <a
         href="{% url 'blog' %}"
         class="{% if 'blog' in request.resolver_match.url_name %}bg-amber-50 text-amber-600{% else %}text-gray-700 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-base font-medium"
@@ -230,7 +238,6 @@
         Contato
       </a>
 
-      <!-- Mobile User Menu -->
       {% if user.is_authenticated %}
       <div class="border-t border-gray-200 pt-4 pb-3">
         <div class="flex items-center px-3">

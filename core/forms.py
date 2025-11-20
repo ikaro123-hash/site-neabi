@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Submit, Div, HTML
 from crispy_forms.bootstrap import FormActions
-from .models import User, BlogPost, Event, ContactMessage, Category, Tag
+from .models import User, BlogPost, Event, ContactMessage, Category
 
 
 class NEABIAuthenticationForm(AuthenticationForm):
@@ -21,6 +21,36 @@ class NEABIAuthenticationForm(AuthenticationForm):
             )
         )
 
+class CategoryForm(forms.ModelForm):
+    """Formulário para criar e editar Categorias no painel administrativo."""
+
+    class Meta:
+        model = Category
+        # Incluímos apenas os campos que o usuário deve preencher.
+        # O campo 'slug' será preenchido automaticamente (prepopulated_fields) ou por clean.
+        fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Nome da Categoria'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Descrição breve', 'rows': 2}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        # Remove os labels para melhor integração no modal
+        self.fields['name'].label = False
+        self.fields['description'].label = False
+        
+        # Layout customizado para uso em modal/mini-formulário
+        self.helper.layout = Layout(
+            Field('name'),
+            Field('description'),
+            FormActions(
+                # Este botão precisa do atributo name/value para ser detectado na view
+                Submit('submit_category', 'Salvar Categoria', css_class='btn btn-primary w-100')
+            )
+        )
 
 class ContactForm(forms.ModelForm):
     """Contact form for the website"""
@@ -63,7 +93,7 @@ class BlogPostForm(forms.ModelForm):
         model = BlogPost
         fields = [
             'title', 'excerpt', 'content', 'category', 'tags', 
-            'read_time', 'image', 'featured', 'status'
+            'read_time', 'image', 'featured', 'status', 'author'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Título do post'}),
@@ -93,6 +123,7 @@ class BlogPostForm(forms.ModelForm):
             Div(
                 Div('category', css_class='col-md-6'),
                 Div('read_time', css_class='col-md-6'),
+                Div('author', css_class='col-md-6'), 
                 css_class='row'
             ),
             Field('tags'),
@@ -119,7 +150,7 @@ class EventForm(forms.ModelForm):
             'title', 'description', 'date', 'start_time', 'end_time',
             'location', 'category', 'event_type', 'capacity', 'organizer',
             'speakers', 'tags', 'image', 'registration_required', 'price',
-            'featured', 'status'
+            'featured', 'status',  'registration_link'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Título do evento'}),
@@ -174,8 +205,9 @@ class EventForm(forms.ModelForm):
             Field('tags'),
             HTML('<hr><h4>Inscrições e Preço</h4>'),
             Div(
-                Div('registration_required', css_class='col-md-6'),
+                Div('registration_required', css_class='col-md-4'),
                 Div('price', css_class='col-md-6'),
+                Div('registration_link', css_class='col-md-4'),
                 css_class='row'
             ),
             HTML('<hr><h4>Status</h4>'),

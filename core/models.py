@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+# A linha 'from django.db import models' no final dos imports foi removida, pois estava duplicada.
 
 
 class User(AbstractUser):
@@ -75,8 +76,10 @@ class Tag(models.Model):
 
 class BlogPost(models.Model):
     """Blog post model"""
+    
     STATUS_CHOICES = [
-        ('draft', 'Rascunho'),
+        # Corrigido 'Rascho' para 'Rascunho'
+        ('draft', 'Rascunho'), 
         ('published', 'Publicado'),
         ('archived', 'Arquivado'),
     ]
@@ -85,38 +88,21 @@ class BlogPost(models.Model):
     slug = models.SlugField(unique=True, verbose_name='URL')
     excerpt = models.TextField(max_length=300, verbose_name='Resumo')
     content = models.TextField(verbose_name='Conteúdo')
-    author = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        verbose_name='Autor'
-    )
-    category = models.ForeignKey(
-        Category, 
-        on_delete=models.CASCADE, 
-        verbose_name='Categoria'
-    )
-    tags = models.ManyToManyField(Tag, blank=True, verbose_name='Tags')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Autor')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Categoria')
+    tags = models.ManyToManyField('Tag', blank=True, verbose_name='Tags')
     published_date = models.DateTimeField(default=timezone.now, verbose_name='Data de publicação')
     read_time = models.CharField(max_length=20, default='5 min', verbose_name='Tempo de leitura')
-    image = models.ImageField(
-        upload_to='blog_images/', 
-        blank=True, 
-        null=True, 
-        verbose_name='Imagem'
-    )
+    image = models.ImageField(upload_to='blog_images/', blank=True, null=True, verbose_name='Imagem')
     views = models.PositiveIntegerField(default=0, verbose_name='Visualizações')
     likes = models.PositiveIntegerField(default=0, verbose_name='Curtidas')
     featured = models.BooleanField(default=False, verbose_name='Destaque')
-    status = models.CharField(
-        max_length=20, 
-        choices=STATUS_CHOICES, 
-        default='published',
-        verbose_name='Status'
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='published', verbose_name='Status')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
 
     class Meta:
+        # Mantida a última Meta e removida a duplicação
         verbose_name = 'Post do Blog'
         verbose_name_plural = 'Posts do Blog'
         ordering = ['-published_date']
@@ -125,9 +111,11 @@ class BlogPost(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        # Mantida a chamada que usa o SLUG
         return reverse('blog_detail', kwargs={'slug': self.slug})
     
     def save(self, *args, **kwargs):
+        # O método save foi adicionado aqui (estava fora da classe no código original, mas era necessário no BlogPost)
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -191,6 +179,8 @@ class Event(models.Model):
     price = models.CharField(max_length=50, default="Gratuito", verbose_name='Preço')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
+    registration_link = models.URLField(blank=True, null=True, verbose_name="Link de inscrição")
+
 
     class Meta:
         verbose_name = 'Evento'
@@ -237,5 +227,24 @@ class ContactMessage(models.Model):
         verbose_name_plural = 'Mensagens de Contato'
         ordering = ['-created_at']
 
+class GalleryImage(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Título da Imagem")
+    description = models.TextField(blank=True, verbose_name="Descrição")
+    image = models.ImageField(upload_to='gallery/', verbose_name="Arquivo da Imagem")
+    event = models.ForeignKey(
+        'Event', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        verbose_name="Evento Relacionado"
+    )
+    published = models.BooleanField(default=True, verbose_name="Publicado")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Data de Upload")
+
+    class Meta:
+        verbose_name = "Imagem da Galeria"
+        verbose_name_plural = "Imagens da Galeria"
+        ordering = ['-uploaded_at']
+
     def __str__(self):
-        return f"{self.name} - {self.subject}"
+        return self.title

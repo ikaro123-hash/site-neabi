@@ -4,8 +4,11 @@ from django.db.models import Q
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
-from .models import Post, Event, Category, Tag
+from .models import Post, Event, Category, Tag, User
 from .forms import ContactForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.generic import DetailView
+from .models import GaleriaItem
 
 
 def home(request):
@@ -129,6 +132,10 @@ class EventDetailView(DetailView):
             visibility='public',
             start_date__gt=timezone.now()
         )
+class GaleriaDetailView(DetailView):
+    model = GaleriaItem
+    template_name = 'pages/galeria_detail.html'
+    context_object_name = 'item' # Nome da variável no template
 
 
 def sobre(request):
@@ -158,3 +165,21 @@ def contato(request):
         form = ContactForm()
     
     return render(request, 'pages/contato.html', {'form': form})
+
+
+def is_admin(user):
+    return user.is_superuser or user.is_staff  # só admins e staff
+
+@login_required
+@user_passes_test(is_admin)
+def admin_dashboard(request):
+    posts_count = Post.objects.count()
+    events_count = Event.objects.count()
+    users_count = User.objects.count()
+
+    context = {
+        'posts_count': posts_count,
+        'events_count': events_count,
+        'users_count': users_count,
+    }
+    return render(request, 'admin_dashboard.html', context)

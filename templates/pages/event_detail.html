@@ -49,8 +49,7 @@
               {{ event.start_date|date:"l, d \de F \de Y" }}
             </p>
             <p class="text-gray-600">
-              {{ event.start_date|date:"H:i" }} às {{ event.end_date|date:"H:i"
-              }}
+              {{ event.date|date:"d/m/Y" }} às {{ event.start_time|time:"H:i" }}
             </p>
           </div>
         </div>
@@ -165,11 +164,12 @@
           </div>
 
           {% if event.registration_required %}
-          <button
-            class="w-full bg-amber-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-amber-700 transition-colors"
-          >
+          {% if event.registration_link %}
+          <a href="{{ event.registration_link }}" target="_blank"
+            class="px-6 py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
             Inscrever-se
-          </button>
+          </a>
+      {% endif %}
           {% else %}
           <p class="text-center text-gray-600">Entrada livre</p>
           {% endif %}

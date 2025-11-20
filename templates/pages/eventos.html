@@ -75,8 +75,7 @@
           </h3>
 
           <p class="text-sm text-gray-600 mb-2">
-            {{ event.start_date|date:"l, d \de F \de Y" }} • {{
-            event.start_date|date:"H:i" }}
+           {{ event.date|date:"d/m/Y" }} às {{ event.start_time|time:"H:i" }}
           </p>
 
           <div class="flex items-center gap-2 text-sm text-gray-600 mb-4">
@@ -164,8 +163,7 @@
           </h3>
 
           <p class="text-sm text-gray-600 mb-2">
-            {{ event.start_date|date:"l, d \de F \de Y" }} • {{
-            event.start_date|date:"H:i" }}
+            {{ event.date|date:"d/m/Y" }} às {{ event.start_time|time:"H:i" }}
           </p>
 
           <div class="flex items-center gap-2 text-sm text-gray-600 mb-4">

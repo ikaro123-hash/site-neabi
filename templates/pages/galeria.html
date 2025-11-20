@@ -1,0 +1,55 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %}Galeria - NEABI{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-white">
+
+    <section class="py-16 px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Nossa Galeria de Eventos
+        </h1>
+        <p class="text-xl text-gray-600 max-w-4xl mx-auto">
+            Confira os momentos e atividades do NEABI.
+        </p>
+    </section>
+
+    <section class="pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            
+            {% if images %}
+                {% for img in images %}
+                <div class="rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300">
+
+                    <a href="{{ img.image.url }}" target="_blank">
+                        <img src="{{ img.image.url }}" 
+                            alt="{{ img.title }}" 
+                            class="w-full h-64 object-cover cursor-pointer">
+                    </a>
+
+                    <div class="p-4 bg-gray-50">
+                        <p class="text-lg font-semibold text-gray-800">{{ img.title }}</p>
+
+                        {% if img.event %}
+                        <p class="text-sm text-green-700 font-medium">
+                            Evento: {{ img.event.title }}
+                        </p>
+                        {% endif %}
+
+                        <p class="text-sm text-gray-500">{{ img.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+            {% else %}
+                <p class="text-center col-span-3 text-gray-600 text-lg">
+                    Nenhuma imagem cadastrada ainda.
+                </p>
+            {% endif %}
+
+        </div>
+    </section>
+
+</div>
+{% endblock %}

@@ -11,4 +11,6 @@ urlpatterns = [
     path('eventos/', views.EventListView.as_view(), name='eventos'),
     path('eventos/<slug:slug>/', views.EventDetailView.as_view(), name='event_detail'),
     path('contato/', views.contato, name='contato'),
+    path('admin-panel/', views.admin_dashboard, name='admin_dashboard'),
+    path('galeria/<int:pk>/', views.GaleriaDetailView.as_view(), name='galeria_detail'),
 ]
