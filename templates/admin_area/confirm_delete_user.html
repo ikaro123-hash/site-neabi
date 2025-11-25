@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="max-w-lg mx-auto py-10 text-center">
+
+    <h1 class="text-2xl font-bold mb-6 text-red-600">Excluir Usuário</h1>
+
+    <p class="mb-6">
+        Tem certeza que deseja excluir o usuário
+        <strong>{{ user.username }}</strong>?
+    </p>
+
+    <form method="POST" class="flex justify-center gap-4">
+        {% csrf_token %}
+        <button class="bg-red-600 text-white px-4 py-2 rounded">Sim, excluir</button>
+        <a href="{% url 'admin_user_list' %}" class="px-4 py-2 rounded border">Cancelar</a>
+    </form>
+
+</div>
+
+{% endblock %}

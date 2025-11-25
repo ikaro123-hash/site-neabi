@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Nova Categoria - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200">
+
+        <!-- Título -->
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-8 text-center flex items-center justify-center">
+            <i class="fas fa-layer-group mr-3" style="color: #386641;"></i>
+            Criar Nova Categoria
+        </h1>
+
+        <!-- Formulário -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Nome -->
+            <div class="flex flex-col">
+                <label for="id_name" class="block text-sm font-semibold text-gray-700 mb-1">
+                    Nome da Categoria
+                </label>
+
+                <input 
+                    type="text" 
+                    name="name" 
+                    id="id_name" 
+                    value="{{ form.name.value|default_if_none:'' }}" 
+                    placeholder="Ex: Notícias, Tutoriais"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                           focus:outline-none 
+                           focus:ring-2 
+                           focus:ring-[##386641] 
+                           focus:border-[#386641] 
+                           transition duration-200"
+                >
+            </div>
+
+            <!-- Botões -->
+            <div class="flex justify-between items-center pt-4 border-t" style="border-color: #38664130;">
+                
+                <a 
+                    href="{% url 'admin_category_list' %}" 
+                    class="font-medium transition duration-150 py-2 px-4 rounded-lg flex items-center"
+                    style="color: #386641;"
+                >
+                    <i class="fas fa-arrow-left mr-1"></i> 
+                    Cancelar e Voltar
+                </a>
+
+                <button 
+                    type="submit" 
+                    class="flex items-center text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 transform hover:scale-[1.02]"
+                    style="background-color: #386641;"
+                >
+                    <i class="fas fa-save mr-2"></i> Salvar Categoria
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -110,9 +110,7 @@ AUTH_USER_MODEL = 'core.User'
 # Login URLs
 LOGIN_URL = '/admin/login/'
 LOGIN_REDIRECT_URL = '/admin/dashboard/'
-LOGOUT_REDIRECT_URL = '/'
-
-# Crispy Forms
+LOGOUT_REDIRECT_URL = '/login/'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 

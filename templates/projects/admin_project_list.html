@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Projetos - Admin{% endblock %}
+
+{% block content %}
+<section class="py-10 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Gerenciar Projetos</h1>
+
+      <a
+        href="{% url 'admin_project_create' %}"
+        class="px-5 py-3 bg-green-700 text-white rounded-xl shadow hover:bg-green-800"
+      >
+        + Novo Projeto
+      </a>
+    </div>
+
+    <!-- Tabela -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Título</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Categoria</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Criado em</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Link</th>
+            <th class="px-6 py-3 text-right text-sm font-semibold text-gray-900">Ações</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+          {% for project in projects %}
+          <tr>
+            <td class="px-6 py-4 text-gray-800">{{ project.title }}</td>
+            <td class="px-6 py-4 text-gray-600">{{ project.category|default:"Sem categoria" }}</td>
+            <td class="px-6 py-4 text-gray-600">{{ project.created_at|date:"d/m/Y" }}</td>
+            <td class="px-6 py-4 text-gray-600">{{ project.status|yesno:"Ativo,Inativo" }}</td>
+
+            <td class="px-6 py-4">
+              {% if project.link_to_join %}
+                <a href="{{ project.link_to_join }}" target="_blank" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                  Inscrição
+                </a>
+              {% else %}
+                -
+              {% endif %}
+            </td>
+
+            <td class="px-6 py-4 text-right space-x-3">
+              <a href="{% url 'admin_project_edit' project.id %}" class="text-blue-600 hover:text-blue-800 font-medium">Editar</a>
+              <a href="{% url 'admin_project_delete' project.id %}" class="text-red-600 hover:text-red-800 font-medium">Excluir</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="px-6 py-6 text-center text-gray-500">
+              Nenhum projeto cadastrado ainda.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

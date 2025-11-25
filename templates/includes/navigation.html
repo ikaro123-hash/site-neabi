@@ -31,7 +31,7 @@
 
           <div class="relative group">
             <button
-              class="{% if 'projetos' in request.resolver_match.url_name or 'eventos' in request.resolver_match.url_name %}text-amber-600 border-b-2 border-amber-600{% else %}text-gray-700 hover:text-amber-600{% endif %} px-3 py-2 text-sm font-medium transition-colors flex items-center"
+              class="{% if 'project_list' in request.resolver_match.url_name or 'eventos' in request.resolver_match.url_name %}text-amber-600 border-b-2 border-amber-600{% else %}text-gray-700 hover:text-amber-600{% endif %} px-3 py-2 text-sm font-medium transition-colors flex items-center"
             >
               Projetos
               <svg class="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -47,7 +47,7 @@
             >
               <div class="py-1">
                 <a
-                  href="{% url 'projetos' %}"
+                  href="{% url 'project_list' %}"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600"
                 >
                   Visão Geral dos Projetos
@@ -136,10 +136,9 @@
           </div>
           {% else %}
           <a
-            href="{% url 'admin_login' %}"
-            class="bg-gradient-to-r from-amber-600 to-red-700 hover:from-amber-700 hover:to-red-800 text-white px-4 py-2 rounded-md text-sm font-medium transition-all"
+              href="{% url 'admin_login' %}"  class="bg-gradient-to-r from-amber-600 to-red-700 hover:from-amber-700 hover:to-red-800 text-white px-4 py-2 rounded-md text-sm font-medium transition-all"
           >
-            Entrar
+              Entrar
           </a>
           {% endif %}
         </div>
@@ -200,8 +199,8 @@
       <div class="pl-3">
         <div class="text-gray-700 font-medium py-2">Projetos</div>
         <a
-          href="{% url 'projetos' %}"
-          class="{% if request.resolver_match.url_name == 'projetos' %}bg-amber-50 text-amber-600{% else %}text-gray-600 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-sm"
+          href="{% url 'project_list' %}"
+          class="{% if request.resolver_match.url_name == 'project_list' %}bg-amber-50 text-amber-600{% else %}text-gray-600 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-sm"
         >
           Visão Geral
         </a>

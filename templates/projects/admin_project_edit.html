@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Editar Projeto - Admin{% endblock %}
+
+{% block content %}
+<section class="py-10 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+
+    <!-- Título e voltar -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Editar Projeto</h1>
+
+      <a href="{% url 'admin_project_list' %}" class="text-gray-600 hover:text-gray-900">
+        ← Voltar
+      </a>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white shadow rounded-xl p-8">
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 gap-6">
+
+          {% for field in form %}
+            <div>
+              <label class="block text-gray-800 font-semibold mb-1">
+                {{ field.label }}
+              </label>
+
+              {% if field.errors %}
+                <div class="text-red-600 text-sm mb-1">
+                  {{ field.errors|striptags }}
+                </div>
+              {% endif %}
+
+              {{ field|add_class:"w-full border border-gray-300 rounded-lg px-3 py-2" }}
+            </div>
+          {% endfor %}
+
+          {% if project.image %}
+          <div class="mt-4">
+            <p class="font-semibold mb-2">Imagem atual:</p>
+            <img src="{{ project.image.url }}" alt="Imagem do projeto" class="w-48 rounded-lg shadow">
+          </div>
+          {% endif %}
+
+        </div>
+
+        <div class="mt-8 flex justify-end gap-4">
+          <a
+            href="{% url 'admin_project_list' %}"
+            class="px-5 py-3 bg-gray-200 rounded-xl hover:bg-gray-300"
+          >
+            Cancelar
+          </a>
+
+          <button
+            type="submit"
+            class="px-6 py-3 bg-blue-700 text-white rounded-xl shadow hover:bg-blue-800"
+          >
+            Atualizar Projeto
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

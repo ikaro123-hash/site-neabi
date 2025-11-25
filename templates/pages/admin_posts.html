@@ -63,96 +63,95 @@
     <form method="post" enctype="multipart/form-data" class="space-y-6">
         {% csrf_token %}
 
-        <!-- Informações Básicas -->
+        {% with input_class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500" %}
+
         <fieldset class="border border-gray-200 rounded p-4 space-y-4">
             <legend class="text-xl font-semibold px-2">Informações Básicas</legend>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="md:col-span-2">
                     <label for="{{ form.title.id_for_label }}" class="block font-medium mb-1">Título</label>
-                    {{ form.title }}
+                    {% render_field form.title class=input_class %}
                     {% if form.title.errors %}
-                        <p class="text-red-500 text-sm">{{ form.title.errors }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ form.title.errors }}</p>
                     {% endif %}
                 </div>
 
                 <div class="md:col-span-2">
-                    <label for="{{ form.slug.id_for_label }}" class="block font-medium mb-1">URL</label>
-                    {{ form.slug }}
+                    <label for="{{ form.slug.id_for_label }}" class="block font-medium mb-1">URL (Slug)</label>
+                    {% render_field form.slug class=input_class %}
                     {% if form.slug.errors %}
-                        <p class="text-red-500 text-sm">{{ form.slug.errors }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ form.slug.errors }}</p>
                     {% endif %}
                 </div>
 
                 <div class="md:col-span-2">
                     <label for="{{ form.excerpt.id_for_label }}" class="block font-medium mb-1">Resumo</label>
-                    {{ form.excerpt }}
+                    {% render_field form.excerpt class=input_class %}
                     {% if form.excerpt.errors %}
-                        <p class="text-red-500 text-sm">{{ form.excerpt.errors }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ form.excerpt.errors }}</p>
                     {% endif %}
                 </div>
 
                 <div class="md:col-span-2">
                     <label for="{{ form.content.id_for_label }}" class="block font-medium mb-1">Conteúdo</label>
-                    {{ form.content }}
+                    {% render_field form.content class=input_class rows="15" %} 
                     {% if form.content.errors %}
-                        <p class="text-red-500 text-sm">{{ form.content.errors }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ form.content.errors }}</p>
                     {% endif %}
                 </div>
             </div>
         </fieldset>
 
-        <!-- Metadados -->
         <fieldset class="border border-gray-200 rounded p-4 space-y-4">
             <legend class="text-xl font-semibold px-2">Metadados</legend>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="{{ form.author.id_for_label }}" class="block font-medium mb-1">Autor</label>
-                    {{ form.author }}
+                    {% render_field form.author class=input_class %}
                 </div>
                 <div>
                     <label for="{{ form.category.id_for_label }}" class="block font-medium mb-1">Categoria</label>
-                    {{ form.category }}
+                    {% render_field form.category class=input_class %}
                 </div>
                 <div>
                     <label for="{{ form.read_time.id_for_label }}" class="block font-medium mb-1">Tempo de Leitura</label>
-                    {{ form.read_time }}
+                    {% render_field form.read_time class=input_class %}
                 </div>
                 <div class="md:col-span-2">
                     <label for="{{ form.tags.id_for_label }}" class="block font-medium mb-1">Tags</label>
-                    {{ form.tags }}
+                    {% render_field form.tags class=input_class %}
                 </div>
             </div>
         </fieldset>
 
-        <!-- Publicação -->
         <fieldset class="border border-gray-200 rounded p-4 space-y-4">
             <legend class="text-xl font-semibold px-2">Publicação</legend>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="{{ form.status.id_for_label }}" class="block font-medium mb-1">Status</label>
-                    {{ form.status }}
+                    {% render_field form.status class=input_class %}
                 </div>
                 <div class="flex items-center space-x-2 mt-5">
-                    {{ form.featured }}
+                    {% render_field form.featured class="h-4 w-4 text-blue-600 border-gray-300 rounded" %}
                     <label for="{{ form.featured.id_for_label }}" class="font-medium">Destaque</label>
                 </div>
             </div>
         </fieldset>
 
-        <!-- Mídia -->
         <fieldset class="border border-gray-200 rounded p-4 space-y-4">
             <legend class="text-xl font-semibold px-2">Mídia</legend>
             <div>
                 <label for="{{ form.image.id_for_label }}" class="block font-medium mb-1">Imagem</label>
-                {{ form.image }}
+                {% render_field form.image class="w-full text-gray-700 mt-1" %} 
                 {% if form.image.errors %}
-                    <p class="text-red-500 text-sm">{{ form.image.errors }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ form.image.errors }}</p>
                 {% endif %}
             </div>
         </fieldset>
+        
+        {% endwith %} 
 
-        <!-- Botões -->
         <div class="flex justify-end space-x-4 mt-4">
             <button type="submit" class="px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">Salvar</button>
             <a href="{% url 'admin_posts' %}" class="px-6 py-2 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400 transition">Cancelar</a>

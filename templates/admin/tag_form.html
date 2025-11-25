@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Tags{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl border border-gray-200">
+        
+        <!-- Título -->
+        <h1 class="text-3xl font-extrabold text-green-800 mb-8 text-center flex items-center justify-center">
+            <i class="fas fa-tags mr-3 text-green-600"></i> {{ title }}
+        </h1>
+
+        <!-- Formulário -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Nome da Tag -->
+            <div class="flex flex-col">
+                <label for="id_name" class="block text-sm font-semibold text-gray-700 mb-1">
+                    <i class="fas fa-tag mr-1 text-green-500"></i> Nome da Tag
+                </label>
+                <input 
+                    type="text" 
+                    name="name" 
+                    id="id_name" 
+                    value="{{ form.name.value|default_if_none:'' }}" 
+                    placeholder="Ex: Educação, Cultura"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 transition duration-200"
+                >
+            </div>
+
+
+            <!-- Botões -->
+            <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+                <a href="{% url 'admin_tag_list' %}" class="text-gray-700 hover:text-gray-900 font-medium transition duration-150 py-2 px-4 rounded-lg hover:bg-gray-100 flex items-center">
+                    <i class="fas fa-arrow-left mr-1"></i> Cancelar
+                </a>
+                
+                <button type="submit" class="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-[1.02]">
+                    <i class="fas fa-save mr-2"></i> Salvar Tag
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

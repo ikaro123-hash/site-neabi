@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Tags - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-10">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Tags</h1>
+        <a href="{% url 'admin_tag_create' %}" class="bg-green-600 text-white px-4 py-2 rounded">Nova Tag</a>
+    </div>
+
+    <table class="w-full border border-gray-300 rounded">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border px-4 py-2 text-left">Nome</th>
+                <th class="border px-4 py-2 text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tag in tags %}
+            <tr class="hover:bg-gray-50">
+                <td class="border px-4 py-2">{{ tag.name }}</td>
+                <td class="border px-4 py-2 text-center space-x-2">
+                    <a href="{% url 'admin_tag_edit' tag.pk %}" class="text-blue-600 hover:underline">Editar</a>
+                    <a href="{% url 'admin_tag_delete' tag.pk %}" class="text-red-600 hover:underline">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2" class="text-center py-4 text-gray-500">Nenhuma tag encontrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Permissões de {{ user_obj.username }}{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto py-10">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">
+        Permissões de: {{ user_obj.username }}
+    </h1>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <p class="text-green-600">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" class="bg-white shadow-md rounded-lg p-6 space-y-4">
+        {% csrf_token %}
+
+        <!-- Usuário Ativo -->
+        <label class="flex items-center gap-2">
+            <input type="checkbox" name="is_active" {% if user_obj.is_active %}checked{% endif %} class="form-checkbox">
+            Usuário Ativo
+        </label>
+
+        <!-- Função do usuário -->
+        <div class="mt-4">
+            <p class="font-semibold mb-2">Função do usuário:</p>
+            <label class="flex items-center gap-2">
+                <input type="radio" name="role" value="reader" 
+                    {% if user_obj.role == 'reader' %}checked{% endif %} class="form-radio">
+                Leitor (acesso limitado)
+            </label>
+            <label class="flex items-center gap-2">
+                <input type="radio" name="role" value="admin" 
+                    {% if user_obj.role == 'admin' %}checked{% endif %} class="form-radio">
+                Administrador (acesso total)
+            </label>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold">
+                Salvar Permissões
+            </button>
+        </div>
+    </form>
+
+    <div class="mt-6">
+        <a href="{% url 'admin_user_list' %}" class="text-gray-700 underline hover:text-gray-900">
+            ← Voltar para a lista de usuários
+        </a>
+    </div>
+</div>
+{% endblock %}

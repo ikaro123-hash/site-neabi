@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ project.title }} - NEABI
+{% endblock %}
+
+{% block content %}
+<section class="py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+
+    <!-- Título -->
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">
+      {{ project.title }}
+    </h1>
+
+    <!-- Imagem (se houver) -->
+    {% if project.image %}
+    <img
+      src="{{ project.image.url }}"
+      alt="{{ project.title }}"
+      class="w-full rounded-2xl shadow-lg mb-10"
+    />
+    {% endif %}
+
+    <!-- Descrição -->
+    <div class="prose prose-lg max-w-none text-gray-800">
+      {{ project.description|safe }}
+    </div>
+
+    <!-- Categoria -->
+    {% if project.category %}
+    <div class="mt-8">
+      <span class="px-4 py-2 bg-green-700 text-white rounded-xl text-sm">
+        Categoria: {{ project.category }}
+      </span>
+    </div>
+    {% endif %}
+
+    <!-- Botão de inscrição -->
+    {% if project.link_to_join %}
+    <div class="mt-6">
+      <a
+        href="{{ project.link_to_join }}"
+        target="_blank"
+        class="inline-block px-6 py-3 bg-blue-600 text-white rounded-xl text-lg font-medium hover:bg-blue-700"
+      >
+        Acessar Inscrição
+      </a>
+    </div>
+    {% endif %}
+
+    <!-- Botão voltar -->
+    <div class="mt-10">
+      <a
+        href="{% url 'project_list' %}"
+        class="inline-block px-6 py-3 bg-green-700 text-white rounded-xl text-lg font-medium hover:bg-green-800"
+      >
+        Voltar para Projetos
+      </a>
+    </div>
+
+    <!-- Data de criação -->
+    <p class="text-gray-500 mt-6 text-sm">
+      Criado em: {{ project.created_at|date:"d/m/Y" }}
+    </p>
+
+    <!-- Botão voltar -->
+    <div class="mt-10">
+      <a
+        href="{% url 'project_list' %}"
+        class="inline-block px-6 py-3 bg-green-700 text-white rounded-xl text-lg font-medium hover:bg-green-800"
+      >
+        Voltar para Projetos
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Mensagens - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto py-10">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Mensagens Recebidas</h1>
+
+    {% if messages %}
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Nome</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Email</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Assunto</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Mensagem</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase">Status</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for msg in messages %}
+                <tr class="hover:bg-gray-50" id="message-row-{{ msg.id }}">
+                    <td class="px-6 py-4">{{ msg.name }}</td>
+                    <td class="px-6 py-4">{{ msg.email }}</td>
+                    <td class="px-6 py-4">{{ msg.subject }}</td>
+                    <td class="px-6 py-4 text-gray-700">{{ msg.message|truncatechars:50 }}</td>
+                    <td class="px-6 py-4 text-center" id="status-{{ msg.id }}">
+                        {% if msg.is_read %}
+                            <span class="text-green-600 font-semibold">Lida</span>
+                        {% else %}
+                            <span class="text-red-600 font-semibold">Não lida</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-center space-x-2">
+                        {% if not msg.is_read %}
+                        <button 
+                            class="mark-read-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                            data-id="{{ msg.id }}">
+                            Marcar como lida
+                        </button>
+                        {% endif %}
+                        <a href="mailto:{{ msg.email }}" 
+                           class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                            Responder
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                        Nenhuma mensagem encontrada.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    <div class="mt-4 flex justify-center">
+        <nav class="inline-flex space-x-2">
+            {% if messages.has_previous %}
+            <a href="?page={{ messages.previous_page_number }}" 
+               class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Anterior</a>
+            {% endif %}
+            <span class="px-3 py-1 bg-gray-100 rounded">
+                Página {{ messages.number }} de {{ messages.paginator.num_pages }}
+            </span>
+            {% if messages.has_next %}
+            <a href="?page={{ messages.next_page_number }}" 
+               class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Próxima</a>
+            {% endif %}
+        </nav>
+    </div>
+    {% else %}
+    <p class="text-gray-500 text-center mt-4">Nenhuma mensagem encontrada.</p>
+    {% endif %}
+</div>
+
+<!-- Script AJAX para marcar como lida -->
+<script>
+document.querySelectorAll('.mark-read-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const messageId = button.dataset.id;
+
+        fetch(`/admin-area/messages/mark-read/${messageId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Atualiza status na tabela
+                const statusCell = document.getElementById(`status-${messageId}`);
+                statusCell.innerHTML = '<span class="text-green-600 font-semibold">Lida</span>';
+
+                // Desabilita o botão
+                button.remove();
+            } else {
+                alert('Erro ao marcar a mensagem como lida.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Erro ao processar a requisição.');
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Usuário{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-10">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Editar Usuário: {{ user.username }}</h1>
+
+    <form method="post" class="bg-white shadow-md rounded-lg p-6 space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-gray-700 font-medium mb-1">Nome de usuário</label>
+            <input type="text" name="username" value="{{ user.username }}" 
+                   class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-600">
+        </div>
+
+        <div>
+            <label class="block text-gray-700 font-medium mb-1">Email</label>
+            <input type="email" name="email" value="{{ user.email }}" 
+                   class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-600">
+        </div>
+
+        <div class="flex gap-4 mt-4">
+            <button type="submit" name="save_user" 
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Salvar
+            </button>
+
+
+            <a href="{% url 'admin_user_list' %}" 
+               class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
+               Voltar
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

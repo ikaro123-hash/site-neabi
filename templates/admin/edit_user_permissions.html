@@ -1,0 +1,23 @@
+{% extends "admin/base_admin.html" %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Permissões de {{ user.username }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for perm in all_permissions %}
+        <label class="flex items-center space-x-2">
+            <input type="checkbox" name="permissions" value="{{ perm.id }}"
+                   {% if perm in user_permissions %}checked{% endif %}>
+            <span>{{ perm.name }}</span>
+        </label>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded">
+        Salvar Alterações
+    </button>
+</form>
+{% endblock %}

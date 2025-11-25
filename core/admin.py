@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.html import format_html
-from .models import User, Category, Tag, BlogPost, Event, ContactMessage, GalleryImage
+from .models import User, Category, Tag, BlogPost, Event, ContactMessage, GalleryImage , Project
 
 
 @admin.register(User)
@@ -22,11 +22,10 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'description', 'created_at')
-    search_fields = ('name', 'description')
+    list_display = ('name', 'slug')
+    search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
     ordering = ('name',)
-
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -132,9 +131,6 @@ class EventAdmin(admin.ModelAdmin):
     registered_capacity.short_description = 'Inscritos/Capacidade'
 
 
-# ----------------------------------------------------
-# 🌟 NOVO: Registro do modelo GalleryImage para a galeria
-# ----------------------------------------------------
 @admin.register(GalleryImage)
 class GalleryImageAdmin(admin.ModelAdmin):
     list_display = ('title', 'event', 'published', 'uploaded_at')
@@ -176,7 +172,43 @@ class ContactMessageAdmin(admin.ModelAdmin):
     mark_as_unread.short_description = 'Marcar como não lida'
 
 
-# Customize admin site
-admin.site.site_header = 'NEABI - Administração'
-admin.site.site_title = 'NEABI Admin'
-admin.site.index_title = 'Painel Administrativo NEABI'
+# ----------------------------------------------------
+# 🌟 NOVO: CONFIGURAÇÃO DO ADMIN PARA O MODELO PROJECT
+# ----------------------------------------------------
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'status',
+        'featured',
+        'category',
+        'created_at',
+        'updated_at'
+    )
+
+    list_filter = ('status', 'featured', 'category')
+    search_fields = ('title', 'description')
+    date_hierarchy = 'created_at'
+    ordering = ('-created_at',)
+
+    # Preenche slug automaticamente a partir do título
+    prepopulated_fields = {'slug': ('title',)}
+
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'description', 'image', 'link_to_join')
+        }),
+        ('Classificação', {
+            'fields': ('category', 'tags')
+        }),
+        ('Publicação e Status', {
+            'fields': ('status', 'featured'),
+            'description': 'Controle o status de exibição e destaque do projeto.'
+        }),
+        ('Datas', {
+            'fields': ('created_at', 'updated_at'),
+        }),
+    )
+
+    # Campos somente leitura
+    readonly_fields = ('created_at', 'updated_at')
