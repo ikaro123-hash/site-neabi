@@ -99,31 +99,25 @@
         </div>
 
         <!-- Palestrantes -->
-        {% if event.speakers %}
+       {% if event.get_speakers_list %}
         <div class="mt-8">
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Palestrantes</h3>
-          <div class="space-y-3">
-            {% for speaker in event.speakers_list %}
-            <div class="flex items-center space-x-3">
-              <div
-                class="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center"
-              >
-                <svg
-                  class="h-5 w-5 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  ></path>
-                </svg>
-              </div>
-              <span class="font-medium text-gray-900">{{ speaker }}</span>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Palestrantes</h3>
+
+            <div class="space-y-3">
+                {% for p in event.get_speakers_list %}
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center">
+                        <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium text-gray-900">{{ p }}</span>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-          </div>
         </div>
         {% endif %}
+
       </div>
 
       <!-- Sidebar - Informações -->
@@ -146,20 +140,9 @@
               >
             </div>
 
-            <div class="flex justify-between">
-              <span class="text-gray-600">Inscritos:</span>
-              <span class="font-semibold text-gray-900"
-                >{{ event.registered }}/{{ event.capacity }}</span
-              >
-            </div>
-
+            
             <!-- Barra de Progresso -->
-            <div class="w-full bg-gray-200 rounded-full h-2">
-              <div
-                class="bg-amber-600 h-2 rounded-full"
-                style="width: {% widthratio event.registered event.capacity 100 %}%"
-              ></div>
-            </div>
+
             {% endif %}
           </div>
 
@@ -253,35 +236,7 @@
       </div>
     </div>
 
-    <!-- Eventos Relacionados -->
-    <div class="border-t border-gray-200 pt-8">
-      <h3 class="text-2xl font-bold text-gray-900 mb-6">Outros Eventos</h3>
-      <div class="grid md:grid-cols-2 gap-6">
-        <!-- Placeholder para eventos relacionados -->
-        <div class="bg-white rounded-lg shadow-sm border p-6">
-          <h4 class="font-semibold text-gray-900 mb-2">Evento Relacionado 1</h4>
-          <p class="text-gray-600 text-sm mb-4">
-            Breve descrição do evento relacionado...
-          </p>
-          <a
-            href="#"
-            class="text-amber-600 hover:text-amber-700 text-sm font-medium"
-            >Ver detalhes →</a
-          >
-        </div>
-
-        <div class="bg-white rounded-lg shadow-sm border p-6">
-          <h4 class="font-semibold text-gray-900 mb-2">Evento Relacionado 2</h4>
-          <p class="text-gray-600 text-sm mb-4">
-            Breve descrição do evento relacionado...
-          </p>
-          <a
-            href="#"
-            class="text-amber-600 hover:text-amber-700 text-sm font-medium"
-            >Ver detalhes →</a
-          >
-        </div>
-      </div>
+    
     </div>
   </div>
 </article>

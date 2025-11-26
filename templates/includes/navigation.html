@@ -144,52 +144,117 @@
         </div>
       </div>
 
-      <div class="md:hidden">
-        <button
-          type="button"
-          id="mobile-menu-button"
-          class="bg-white p-2 rounded-md text-gray-700 hover:text-amber-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
-        >
-          <svg
-            class="h-6 w-6"
-            stroke="currentColor"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              id="menu-open"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-            <path
-              id="menu-close"
-              class="hidden"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
+     <!-- BOTÃO MOBILE -->
+<div class="md:hidden relative z-50">
+    <button type="button" id="mobile-menu-button"
+        class="bg-white p-2 rounded-md text-gray-700 hover:text-amber-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
+        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path id="menu-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+            <path id="menu-close" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+</div>
+</div>
+</div>
+<div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200 px-4 py-4 space-y-2">
 
-  <div class="md:hidden hidden" id="mobile-menu">
-    <div
-      class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200"
-    >
-        <a href="{% url 'home' %}" class="flex items-center">
-          <img 
-            src="{% static 'img/neabi_logo_circular.png' %}" 
-            alt="Logo NEABI" 
-            class="w-10 h-10 object-cont"
-          >
+    <a href="{% url 'home' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Início
+    </a>
+
+    <a href="{% url 'sobre' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Sobre
+    </a>
+
+    <a href="{% url 'project_list' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Projetos
+    </a>
+
+    <a href="{% url 'galeria' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Galeria
+    </a>
+
+    <a href="{% url 'blog' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Blog
+    </a>
+
+    <a href="{% url 'eventos' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Eventos
+    </a>
+
+    <a href="{% url 'contato' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Contato
+    </a>
+
+    <a href="{% url 'semana_consciencia_negra' %}" class="block py-2 text-gray-700 hover:text-amber-600">
+        Semana da Consciência Negra
+    </a>
+
+</div>
+
+
+<!-- MENU MOBILE - FECHADO POR PADRÃO -->
+<div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200 relative z-40">
+
+    <div class="px-4 pt-4 pb-3 space-y-2">
+
+        <!-- LOGO + TÍTULO -->
+        <a href="{% url 'home' %}" class="flex items-center mb-3">
+            <img src="{% static 'img/neabi_logo_circular.png' %}" class="w-10 h-10 object-contain mr-3">
+            <span class="text-xl font-bold text-gray-900">NEABI</span>
+        </a>
+
+        <!-- LINKS -->
+        <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-amber-50 hover:text-amber-600">
+            Início
+        </a>
+
+        <a href="{% url 'sobre' %}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-amber-50 hover:text-amber-600">
+            Sobre
+        </a>
+
+        <!-- SUBMENU PROJETOS -->
+        <div>
+            <p class="px-3 text-sm font-semibold text-gray-700">Projetos</p>
+
+            <a href="{% url 'project_list' %}" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-amber-50 hover:text-amber-600">
+                Visão Geral
+            </a>
+            <a href="{% url 'semana_consciencia_negra' %}" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-amber-50 hover:text-amber-600">
+                Semana da Consciência Negra
+            </a>
+            <a href="{% url 'eventos' %}" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-amber-50 hover:text-amber-600">
+                Eventos
+            </a>
+        </div>
+
+        <a href="{% url 'galeria' %}"
+            class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-amber-50 hover:text-amber-600">
+            Galeria
+        </a>
+        <a href="{% url 'blog' %}"
+            class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-amber-50 hover:text-amber-600">
+            Blog
+        </a>
+        <a href="{% url 'contato' %}"
+            class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-amber-50 hover:text-amber-600">
+            Contato
+        </a>
+
+    </div>
+</div>
+
+
+  <div id="mobile-menu" class="md:hidden relative z-50 hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+        
+        <a href="{% url 'home' %}" class="flex items-center mb-2">
+            <img src="{% static 'img/neabi_logo_circular.png' %}" class="w-10 h-10 object-contain mr-3">
             <div class="text-xl font-bold text-gray-900">NEABI</div>
-          </a>
-        <a
+        </a>
+      <a
         href="{% url 'sobre' %}"
         class="{% if request.resolver_match.url_name == 'sobre' %}bg-amber-50 text-amber-600{% else %}text-gray-700 hover:bg-amber-50 hover:text-amber-600{% endif %} block px-3 py-2 rounded-md text-base font-medium"
       >
@@ -286,16 +351,14 @@
 </nav>
 
 <script>
-  // Mobile menu toggle
-  document
-    .getElementById("mobile-menu-button")
-    .addEventListener("click", function () {
-      const menu = document.getElementById("mobile-menu");
-      const menuOpen = document.getElementById("menu-open");
-      const menuClose = document.getElementById("menu-close");
+const btn = document.getElementById("mobile-menu-button");
+const menu = document.getElementById("mobile-menu");
+const menuOpen = document.getElementById("menu-open");
+const menuClose = document.getElementById("menu-close");
 
-      menu.classList.toggle("hidden");
-      menuOpen.classList.toggle("hidden");
-      menuClose.classList.toggle("hidden");
-    });
+btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+    menuOpen.classList.toggle("hidden");
+    menuClose.classList.toggle("hidden");
+});
 </script>
