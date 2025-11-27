@@ -6,10 +6,7 @@
       <div class="flex items-center">
         <a href="{% url 'home' %}" class="flex items-center">
           <img
-            src="{% static 'img/neabi_logo_circular.png' %}"
-            alt="Logo NEABI"
-            class="w-10 h-10 object-contain mr-3"
-          />
+            <img src="{% static 'img/neabi_logo_circular.png' %}" alt="Logo NEABI" class="w-10 h-10 object-contain mr-3">
           <div class="text-xl font-bold text-gray-900">NEABI</div>
         </a>
       </div>
@@ -352,7 +349,7 @@
 
 <script>
 const btn = document.getElementById("mobile-menu-button");
-const menu = document.getElementById("mobile-menu");
+const menu = document.getElementById("mobile-menu-main");
 const menuOpen = document.getElementById("menu-open");
 const menuClose = document.getElementById("menu-close");
 
@@ -362,3 +359,4 @@ btn.addEventListener("click", () => {
     menuClose.classList.toggle("hidden");
 });
 </script>
+
