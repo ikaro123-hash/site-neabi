@@ -124,8 +124,17 @@ MESSAGE_TAGS = {
     messages.ERROR: 'error',
 }
 
-# Email configuration (for development)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# ==========================
+# EMAIL (Gmail + Render)
+# ==========================
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("eoxr kfwh amuj hhfs")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # Security settings for production
 if not DEBUG:
