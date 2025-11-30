@@ -15,6 +15,7 @@ from .views import (
     GalleryListView,
     event_register,
     criar_conta,
+    delete_message,
 
     # Vistas Admin (Funções)
     admin_logout_view,
@@ -121,7 +122,14 @@ urlpatterns = [
 
 
       # Lista de mensagens (Admin)
-     path('admin-area/messages/', admin_messages_view, name='admin_messages_list'),
+      path('admin-area/messages/', admin_messages_view, name='admin_messages_list'),
+
+    # Marcar como lida
+    path('admin-area/messages/mark-read/<int:pk>/', mark_message_read, name='mark_message_read'),
+
+    # Excluir mensagem
+    path('admin-area/messages/delete/<int:message_id>/', delete_message, name='delete_message'),
+
 
      # urls.py
      path('admin-area/messages/mark-read/<int:pk>/', mark_message_read, name='mark_message_read'),

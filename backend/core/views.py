@@ -655,6 +655,18 @@ def mark_message_read(request, message_id):
 
 @login_required
 @user_passes_test(is_admin)
+def delete_message(request, message_id):
+    """Exclui uma mensagem de contato via AJAX."""
+    if request.method == "POST":
+        message = get_object_or_404(ContactMessage, id=message_id)
+        message.delete()
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'error', 'message': 'Método inválido'})
+
+
+@login_required
+@user_passes_test(is_admin)
 def admin_tags_view(request):
     return render(request, 'admin/tags.html')
 

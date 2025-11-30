@@ -45,7 +45,7 @@
     >
       {{ num }}
     </span>
-    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    {% elif num > page_obj.number|add:'-3' and num page_obj.number|add:'3' %}
     <a
       href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}"
       class="px-3 py-2 text-sm text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-md transition-colors"

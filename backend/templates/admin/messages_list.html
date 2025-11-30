@@ -19,6 +19,7 @@
                     <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase">Ações</th>
                 </tr>
             </thead>
+
             <tbody class="divide-y divide-gray-200">
                 {% for msg in messages %}
                 <tr class="hover:bg-gray-50" id="message-row-{{ msg.id }}">
@@ -26,6 +27,7 @@
                     <td class="px-6 py-4">{{ msg.email }}</td>
                     <td class="px-6 py-4">{{ msg.subject }}</td>
                     <td class="px-6 py-4 text-gray-700">{{ msg.message|truncatechars:50 }}</td>
+
                     <td class="px-6 py-4 text-center" id="status-{{ msg.id }}">
                         {% if msg.is_read %}
                             <span class="text-green-600 font-semibold">Lida</span>
@@ -33,6 +35,7 @@
                             <span class="text-red-600 font-semibold">Não lida</span>
                         {% endif %}
                     </td>
+
                     <td class="px-6 py-4 text-center space-x-2">
                         {% if not msg.is_read %}
                         <button 
@@ -41,12 +44,20 @@
                             Marcar como lida
                         </button>
                         {% endif %}
+
                         <a href="mailto:{{ msg.email }}" 
                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
                             Responder
                         </a>
+
+                        <button 
+                            class="delete-msg-btn bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                            data-id="{{ msg.id }}">
+                            Excluir
+                        </button>
                     </td>
                 </tr>
+
                 {% empty %}
                 <tr>
                     <td colspan="6" class="px-6 py-4 text-center text-gray-500">
@@ -65,51 +76,76 @@
             <a href="?page={{ messages.previous_page_number }}" 
                class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Anterior</a>
             {% endif %}
+
             <span class="px-3 py-1 bg-gray-100 rounded">
                 Página {{ messages.number }} de {{ messages.paginator.num_pages }}
             </span>
+
             {% if messages.has_next %}
             <a href="?page={{ messages.next_page_number }}" 
                class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Próxima</a>
             {% endif %}
         </nav>
     </div>
+
     {% else %}
     <p class="text-gray-500 text-center mt-4">Nenhuma mensagem encontrada.</p>
     {% endif %}
 </div>
 
-<!-- Script AJAX para marcar como lida -->
+<!-- Script AJAX: MARCAR COMO LIDA -->
 <script>
 document.querySelectorAll('.mark-read-btn').forEach(button => {
     button.addEventListener('click', () => {
-        const messageId = button.dataset.id;
+        const id = button.dataset.id;
 
-        fetch(`/admin-area/messages/mark-read/${messageId}/`, {
+        fetch(`/admin-area/messages/mark-read/${id}/`, {
             method: 'POST',
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
                 'Content-Type': 'application/json'
             }
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
             if (data.status === 'success') {
-                // Atualiza status na tabela
-                const statusCell = document.getElementById(`status-${messageId}`);
-                statusCell.innerHTML = '<span class="text-green-600 font-semibold">Lida</span>';
-
-                // Desabilita o botão
+                document.getElementById(`status-${id}`).innerHTML =
+                    '<span class="text-green-600 font-semibold">Lida</span>';
                 button.remove();
             } else {
-                alert('Erro ao marcar a mensagem como lida.');
+                alert('Erro ao marcar como lida.');
             }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Erro ao processar a requisição.');
         });
     });
 });
 </script>
+
+<!-- Script AJAX: EXCLUIR MENSAGEM -->
+<script>
+document.querySelectorAll('.delete-msg-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const id = button.dataset.id;
+
+        if (!confirm("Tem certeza que deseja excluir esta mensagem?")) return;
+
+        fetch(`/admin-area/messages/delete/${id}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const row = document.getElementById(`message-row-${id}`);
+                if (row) row.remove();
+            } else {
+                alert('Erro ao excluir mensagem.');
+            }
+        });
+    });
+});
+</script>
+
 {% endblock %}
