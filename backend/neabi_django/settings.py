@@ -124,33 +124,21 @@ MESSAGE_TAGS = {
     messages.ERROR: 'error',
 }
 
-# ==========================
-# EMAIL (Gmail + Render)
-# Email configuration for production (Render)
-
-# ==========================
-# CONFIGURAÇÃO DE EMAIL - GMAIL + RENDER
-# ==========================
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = os.environ.get('ikaropraxedes2@gmail.com')  
-EMAIL_HOST_PASSWORD = os.environ.get('jekw pkxx iqxy ovqe')  
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Security settings for production
+# ==========================
+# EMAIL CONFIG (GMAIL + RENDER)
+# ==========================
+
 if not DEBUG:
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+else:
+    # Ambiente local
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
