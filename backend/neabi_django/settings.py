@@ -125,12 +125,6 @@ MESSAGE_TAGS = {
 }
 
 
-
-# Security settings for production
-# ==========================
-# EMAIL CONFIG (GMAIL + RENDER)
-# ==========================
-
 if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
