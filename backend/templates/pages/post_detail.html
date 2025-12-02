@@ -5,8 +5,15 @@
 <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ post.title }}</h1>
     <p class="text-sm text-gray-600 mb-6">
-        Por {{ post.author.get_full_name|default:post.author.username }} • {{ post.published_date|date:"d \\d\\e F \\d\\e Y" }}
+        Por 
+        {% if post.author %}
+            {{ post.author.get_full_name|default:post.author.username }}
+        {% else %}
+            Autor não informado
+        {% endif %}
+        • {{ post.published_date|date:"d \\d\\e F \\d\\e Y" }}
     </p>
+
 
     {% if post.image %}
     <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-auto mb-6 rounded-lg shadow">
