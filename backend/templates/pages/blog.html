@@ -54,8 +54,7 @@
 
                     <!-- META -->
                     
-                    Por {{ post.author.get_full_name|default:post.author.username }}
-
+                  
                     <p class="text-sm text-gray-600 mb-6">
                         Por {{ post.author.get_full_name|default:post.author.username }} • {{ post.published_date|date:"d \\d\\e F \\d\\e Y" }}
                     </p>
