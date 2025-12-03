@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin # Para garantir que apenas admins acessem
 from django.utils.text import slugify
+from django.views.decorators.http import require_POST
 
 # IMPORTAÇÕES DE FORMULÁRIOS
 from .forms import (
@@ -643,28 +644,33 @@ def admin_messages_view(request):
         'unread_count': ContactMessage.objects.filter(is_read=False).count(),
     }
     return render(request, 'admin/messages_list.html', context)
-
 @login_required
 @user_passes_test(is_admin)
 def mark_message_read(request, message_id):
     """Marca uma mensagem de contato como lida via AJAX."""
+    
+    if request.method != "POST":
+        return JsonResponse({'status': 'error', 'message': 'Método inválido'})
+
     message = get_object_or_404(ContactMessage, id=message_id)
     message.is_read = True
     message.save()
+
     return JsonResponse({'status': 'success'})
 
 @login_required
 @user_passes_test(is_admin)
+@require_POST
 def delete_message(request, message_id):
-    """Exclui uma mensagem de contato via AJAX."""
-    if request.method == "POST":
+    """Exclui uma mensagem de contato via AJAX (POST)."""
+    try:
         message = get_object_or_404(ContactMessage, id=message_id)
         message.delete()
         return JsonResponse({'status': 'success'})
-
-    return JsonResponse({'status': 'error', 'message': 'Método inválido'})
-
-
+    except Exception as e:
+        # opcional: logue o erro com logging.exception(e)
+        return JsonResponse({'status': 'error', 'message': str(e)})
+    
 @login_required
 @user_passes_test(is_admin)
 def admin_tags_view(request):

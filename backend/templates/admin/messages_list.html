@@ -120,8 +120,24 @@ document.querySelectorAll('.mark-read-btn').forEach(button => {
 });
 </script>
 
-<!-- Script AJAX: EXCLUIR MENSAGEM -->
+
 <script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
 document.querySelectorAll('.delete-msg-btn').forEach(button => {
     button.addEventListener('click', () => {
         const id = button.dataset.id;
@@ -131,7 +147,7 @@ document.querySelectorAll('.delete-msg-btn').forEach(button => {
         fetch(`/admin-area/messages/delete/${id}/`, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
+                'X-CSRFToken': csrftoken,
                 'Content-Type': 'application/json'
             }
         })
@@ -141,11 +157,12 @@ document.querySelectorAll('.delete-msg-btn').forEach(button => {
                 const row = document.getElementById(`message-row-${id}`);
                 if (row) row.remove();
             } else {
-                alert('Erro ao excluir mensagem.');
+                alert("Erro ao excluir mensagem.");
             }
         });
     });
 });
 </script>
+
 
 {% endblock %}

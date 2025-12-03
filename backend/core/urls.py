@@ -125,10 +125,18 @@ urlpatterns = [
       path('admin-area/messages/', admin_messages_view, name='admin_messages_list'),
 
     # Marcar como lida
-    path('admin-area/messages/mark-read/<int:pk>/', mark_message_read, name='mark_message_read'),
+    
+
+      path(
+      'admin-area/messages/mark-read/<int:message_id>/',
+      mark_message_read,
+      name='mark_message_read'
+      ),
+
 
     # Excluir mensagem
     path('admin-area/messages/delete/<int:message_id>/', delete_message, name='delete_message'),
+
 
 
      # urls.py

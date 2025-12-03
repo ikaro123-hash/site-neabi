@@ -53,14 +53,8 @@
                     </a>
 
                     <!-- META -->
-                    <p class="text-sm text-gray-500 mb-3">
-                        Por {% if post.author %}
-                            {{ post.author.get_full_name|default:post.author.username }}
-                        {% else %}
-                            Autor desconhecido
-                        {% endif %}
-                        • {{ post.published_date|date:"d F Y" }}
-                    </p>
+                    Por {{ post.author.get_full_name|default:post.author.username }}
+
 
 
                     <!-- RESUMO -->
