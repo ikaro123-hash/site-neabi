@@ -53,8 +53,14 @@
                     </a>
 
                     <!-- META -->
+<<<<<<< HEAD
                     Por {{ post.author.get_full_name|default:post.author.username }}
 
+=======
+                    <p class="text-sm text-gray-600 mb-6">
+                        Por {{ post.author.get_full_name|default:post.author.username }} • {{ post.published_date|date:"d \\d\\e F \\d\\e Y" }}
+                    </p>
+>>>>>>> e8e256d15dac08267e18b04b354082cb40e1fb86
 
 
                     <!-- RESUMO -->
