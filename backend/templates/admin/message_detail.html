@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Mensagem - {{ message.subject }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+
+    <!-- Voltar -->
+    <a href="{% url 'admin_messages_view' %}" 
+       class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" 
+                  d="M15 19l-7-7 7-7" />
+        </svg>
+        Voltar
+    </a>
+
+    <!-- Card Principal -->
+    <div class="bg-white shadow-lg rounded-xl p-8 mt-6 border border-gray-100">
+
+        <!-- Cabeçalho -->
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-6">
+            {{ message.subject }}
+        </h1>
+
+        <!-- Informações -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 bg-gray-50 p-4 rounded-lg">
+            <p><strong class="font-semibold text-gray-700">Nome:</strong> {{ message.name }}</p>
+            <p><strong class="font-semibold text-gray-700">Email:</strong> {{ message.email }}</p>
+            <p><strong class="font-semibold text-gray-700">Data:</strong> {{ message.created_at }}</p>
+            <p><strong class="font-semibold text-gray-700">Status:</strong>
+                {% if message.is_read %}
+                    <span class="text-green-600 font-medium">Lida</span>
+                {% else %}
+                    <span class="text-red-600 font-medium">Não Lida</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Mensagem -->
+        <div class="bg-gray-100 rounded-lg p-6 text-gray-800 leading-relaxed whitespace-pre-line">
+            {{ message.message }}
+        </div>
+
+        <!-- Ações -->
+        <div class="mt-8 flex flex-wrap gap-4">
+
+            <a href="mailto:{{ message.email }}?subject=Re: {{ message.subject }}"
+               class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white 
+                      px-5 py-2.5 rounded-lg shadow-sm transition">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M16 12H8m0 0l4-4m-4 4l4 4M4 6h16v12H4z" />
+                </svg>
+                Responder por E-mail
+            </a>
+
+            <form action="{% url 'delete_message' message.id %}" method="POST"
+                  onsubmit="return confirm('Tem certeza que deseja excluir esta mensagem?');">
+                {% csrf_token %}
+                <button
+                    class="inline-flex items-center bg-red-600 hover:bg-red-700 text-white 
+                           px-5 py-2.5 rounded-lg shadow-sm transition">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-6a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Excluir
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

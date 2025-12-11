@@ -1,3 +1,5 @@
+from collections import defaultdict
+from datetime import date, datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +14,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin # Para garantir que apenas admins acessem
 from django.utils.text import slugify
 from django.views.decorators.http import require_POST
+from .models import Event
+
+
+import calendar
+from calendar import Calendar
 
 # IMPORTAÇÕES DE FORMULÁRIOS
 from .forms import (
@@ -28,7 +35,7 @@ from .forms import (
     ProjectForm,
 )
 
-from .models import BlogPost, Event, Category, ContactMessage, GalleryImage ,Tag ,Project
+from .models import BlogPost, Event, Category, ContactMessage, GalleryImage ,Tag ,Project ,GalleryGroup
 
 User = get_user_model()
 
@@ -97,6 +104,12 @@ def tag_list(request):
     tags = Tag.objects.all()
     return render(request, 'admin/tags_list.html', {'tags': tags})
 
+def tag_delete(request, pk):
+    tag = get_object_or_404(Tag, pk=pk)
+    tag.delete()
+    messages.success(request, "Tag excluída com sucesso.")
+    return redirect('admin_tag_list')
+
 
 # CRIAR TAG
 def tag_create(request):
@@ -131,12 +144,71 @@ def tag_edit(request, pk):
         'title': 'Editar Tag'
     })
 
+def semana_consciencia_negra(request):
+    today = date.today()
+    year = today.year
 
-# EXCLUIR TAG
-def tag_delete(request, pk):
-    tag = get_object_or_404(Tag, pk=pk)
-    tag.delete()
-    return redirect('admin_tag_list')
+    cal = Calendar()
+    month_days = {}
+    for month in range(1, 13):
+        month_days[month] = list(cal.itermonthdates(year, month))
+
+    eventos = Event.objects.filter(date__year=year)
+    eventos_por_dia = {}
+    for evento in eventos:
+        eventos_por_dia[evento.date] = eventos_por_dia.get(evento.date, [])
+        eventos_por_dia[evento.date].append(evento)
+
+    dias_semana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
+
+    return render(request, "pages/calendario_eventos.html", {
+        "month_days": month_days,
+        "eventos_por_dia": eventos_por_dia,
+        "dias_semana": dias_semana,
+        "year": year
+    })
+
+
+def eventos_json(request):
+    eventos = Event.objects.all()
+    data = []
+
+    for evento in eventos:
+        start_dt = datetime.combine(evento.date, evento.start_time)
+        end_dt = datetime.combine(evento.date, evento.end_time)
+
+        data.append({
+            "title": evento.title,
+            "start": start_dt.isoformat(),
+            "end": end_dt.isoformat(),
+            "slug": evento.slug,
+            "description": evento.description or "",
+            "url": f"/eventos/{evento.slug}/",
+        })
+
+    return JsonResponse(data, safe=False)
+
+def calendario_eventos(request):
+    today = date.today()
+    year = today.year
+
+    cal = Calendar()
+    month_days = {month: list(cal.itermonthdates(year, month)) for month in range(1, 13)}
+
+    eventos = Event.objects.filter(date__year=year)
+    eventos_por_dia = defaultdict(list)
+    for evento in eventos:
+        eventos_por_dia[evento.date].append(evento)
+
+    dias_semana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
+
+    return render(request, "pages/calendario_eventos.html", {
+        "month_days": month_days,
+        "eventos_por_dia": dict(eventos_por_dia),
+        "dias_semana": dias_semana,
+        "year": year,
+    })
+
 
 class BlogDetailView(DetailView):
     model = BlogPost
@@ -169,7 +241,11 @@ def edit_event(request, pk):
         form = EventForm(instance=event)  # Preenche o formulário com os dados existentes
 
     return render(request, 'admin/edit_event.html', {'form': form, 'event': event})
-    
+
+
+def calendario_view(request):
+    return render(request, 'calendario/eventos_calendario.html')
+
 
 
 def register_view(request):
@@ -282,24 +358,49 @@ class EventUpdateView(UpdateView):
         context['title'] = 'Editar Evento'
         return context
 
-    
 
+#
 class GalleryListView(ListView):
-    model = GalleryImage
+    model = Event
     template_name = 'pages/galeria.html'
-    context_object_name = 'images'
-    paginate_by = 12
+    context_object_name = 'events'
+    paginate_by = 12  # opcional, pode remover se não quiser paginação
 
     def get_queryset(self):
-        queryset = GalleryImage.objects.filter(published=True)
-        event_id = self.request.GET.get('event')
-        if event_id:
-            queryset = queryset.filter(event__id=event_id)
-        return queryset.order_by('-uploaded_at')
+        # Retorna apenas eventos que possuem imagens publicadas na galeria
+        return Event.objects.filter(
+            galleryimage__published=True
+        ).distinct()
+    
+
+# 📌 Página do EVENTO: mostra TODAS as fotos do evento selecionado
+class GalleryByEventView(ListView):
+    model = GalleryImage
+    template_name = 'pages/galeria_evento.html'
+    context_object_name = 'images'
+
+    def get_queryset(self):
+        event_id = self.kwargs["event_id"]
+        return GalleryImage.objects.filter(
+            event_id=event_id,
+            published=True
+        ).order_by("-uploaded_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['events_with_images'] = Event.objects.filter(galleryimage__published=True).distinct()
+        context["event"] = Event.objects.get(id=self.kwargs["event_id"])
+        return context
+
+
+
+class EventGalleryView(DetailView):
+    model = Event
+    template_name = "pages/event_gallery.html"
+    context_object_name = "event"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["images"] = GalleryImage.objects.filter(event=self.object, published=True)
         return context
 
 
@@ -671,6 +772,26 @@ def delete_message(request, message_id):
         # opcional: logue o erro com logging.exception(e)
         return JsonResponse({'status': 'error', 'message': str(e)})
     
+
+@login_required
+@user_passes_test(is_admin)
+def admin_message_detail(request, message_id):
+    """Exibe uma mensagem individual e marca como lida automaticamente."""
+    
+    message = get_object_or_404(ContactMessage, id=message_id)
+
+    # Se ainda não estiver lida, marca como lida automaticamente
+    if not message.is_read:
+        message.is_read = True
+        message.save()
+
+    context = {
+        "message": message,
+        "unread_count": ContactMessage.objects.filter(is_read=False).count(),
+    }
+
+    return render(request, "admin/message_detail.html", context)
+    
 @login_required
 @user_passes_test(is_admin)
 def admin_tags_view(request):
@@ -952,3 +1073,6 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         messages.error(self.request, "Você não tem permissão para excluir usuários.")
         return redirect('home')
+    
+
+    

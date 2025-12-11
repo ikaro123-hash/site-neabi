@@ -49,6 +49,26 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     {% block extra_js %}{% endblock %}
+
+   <!-- Botão de Acessibilidade NEABI -->
+    <div id="acessibilidade" class="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-2">
+      <!-- Botão principal -->
+      <button id="btnAcessibilidade" class="bg-amber-600 text-white rounded-full p-3 shadow-lg hover:bg-amber-700" aria-label="Abrir menu de acessibilidade">
+        ♿
+      </button>
+
+      <!-- Menu de opções -->
+      <div id="menuAcessibilidade" class="hidden flex flex-col bg-white border rounded-lg shadow-lg p-4 gap-2 w-40" aria-label="Opções de acessibilidade">
+        <button onclick="toggleContraste()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Alto Contraste</button>
+        <button onclick="aumentarFonte()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">A+</button>
+        <button onclick="diminuirFonte()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">A-</button>
+        <button onclick="lerTexto()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Ler Texto</button>
+        <button onclick="pausarTexto()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Pausar Leitura</button>
+      </div>
+    </div>
+
+
+
   </body>
 </html>
 <script>
@@ -67,3 +87,66 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 </script>
+
+<!-- Script do botão -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btnAcess = document.getElementById("btnAcessibilidade");
+  const menuAcess = document.getElementById("menuAcessibilidade");
+
+  // Toggle do menu
+  btnAcess.addEventListener("click", () => {
+    menuAcess.classList.toggle("hidden");
+  });
+
+  // Fonte inicial
+  let fontSize = 100;
+
+  // Text-to-Speech
+  const synth = window.speechSynthesis;
+  let utterThis;
+
+  window.aumentarFonte = function() {
+    fontSize += 10;
+    document.body.style.fontSize = fontSize + "%";
+  }
+
+  window.diminuirFonte = function() {
+    fontSize -= 10;
+    document.body.style.fontSize = fontSize + "%";
+  }
+
+  window.toggleContraste = function() {
+    document.body.classList.toggle("alto-contraste");
+  }
+
+  window.lerTexto = function() {
+    if(synth.speaking) synth.cancel();
+    const texto = document.body.innerText;
+    utterThis = new SpeechSynthesisUtterance(texto);
+    utterThis.lang = 'pt-BR';
+    synth.speak(utterThis);
+  }
+
+  window.pausarTexto = function() {
+    if(synth.speaking) synth.pause();
+  }
+});
+</script>
+
+<!-- Estilo de alto contraste -->
+<style>
+.alto-contraste {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.alto-contraste a {
+  color: #0ff !important;
+}
+
+.alto-contraste button {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+</style>

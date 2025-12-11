@@ -1,12 +1,17 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 from .views import (
     # Vistas Públicas
     home_view,
+    calendario_eventos,
+    
     sobre_view,
     projetos_view, # Mantida para a rota sem slug
-    semana_consciencia_negra_view,
     BlogListView,
     BlogDetailView,
     EventListView,
@@ -37,6 +42,7 @@ from .views import (
     user_edit,               
     admin_delete_user,      
     admin_edit_user_permissions, 
+    eventos_json,
 
     # Vistas Admin (Classes)
     AdminPostListView,
@@ -61,6 +67,8 @@ from .views import (
     admin_project_delete,
     ProjectListView,
     ProjectDetailView,
+    GalleryByEventView,
+    admin_message_detail,
 )
 
 urlpatterns = [
@@ -69,7 +77,8 @@ urlpatterns = [
     # --------------------
     path('', home_view, name='home'),
     path('sobre/', sobre_view, name='sobre'),
-    path('consciencia-negra/', semana_consciencia_negra_view, name='semana_consciencia_negra'),
+ #   path('consciencia-negra/', na_consciencia_nsemaegra, name='semana_consciencia_negra'),
+
 
     # Blog
     path('blog/', BlogListView.as_view(), name='blog'),
@@ -123,6 +132,7 @@ urlpatterns = [
 
       # Lista de mensagens (Admin)
       path('admin-area/messages/', admin_messages_view, name='admin_messages_list'),
+      path("messages/", admin_messages_view, name="admin_messages_view"),
 
     # Marcar como lida
     
@@ -136,11 +146,14 @@ urlpatterns = [
 
     # Excluir mensagem
     path('admin-area/messages/delete/<int:message_id>/', delete_message, name='delete_message'),
+    path("messages/<int:message_id>/", admin_message_detail, name="admin_message_detail"),
+
 
 
 
      # urls.py
      path('admin-area/messages/mark-read/<int:pk>/', mark_message_read, name='mark_message_read'),
+     path("galeria/grupo/<int:group_id>/", GalleryListView.as_view(), name="galeria_por_grupo"),
 
 
     # --------------------
@@ -166,6 +179,8 @@ urlpatterns = [
     path('admin-area/events/create/', AdminEventCreateView.as_view(), name='admin_event_create'),
     path('admin-area/events/<slug:slug>/edit/', AdminEventUpdateView.as_view(), name='admin_event_update'),
     path('admin-area/events/<slug:slug>/delete/', AdminEventDeleteView.as_view(), name='admin_event_delete'),
+    path('api/eventos/', eventos_json, name='eventos_json'),
+
     # --------------------
     # CRUD CATEGORIAS
     # --------------------
@@ -181,7 +196,8 @@ urlpatterns = [
     path('admin-area/gallery/create/', AdminGalleryCreateView.as_view(), name='admin_gallery_create'),
     path('admin-area/gallery/edit/<int:pk>/', AdminGalleryUpdateView.as_view(), name='admin_gallery_update'),
     path('admin-area/gallery/delete/<int:pk>/', AdminGalleryDeleteView.as_view(), name='admin_gallery_delete'),
-
+    path("galeria/", GalleryListView.as_view(), name="galeria"),
+    path("galeria/evento/<int:event_id>/", GalleryByEventView.as_view(), name="galeria_evento"),
     # --------------------
     # CRUD TAGS
     # --------------------
@@ -189,6 +205,7 @@ urlpatterns = [
     path('admin-area/tags/create/', tag_create, name='admin_tag_create'), 
     path('admin-area/tags/<int:pk>/edit/', tag_edit, name='admin_tag_edit'),
     path('admin-area/tags/<int:pk>/delete/', tag_delete, name='admin_tag_delete'),
+    
 
 
     # --------------------
@@ -199,5 +216,10 @@ urlpatterns = [
     path('admin-area/projects/<int:pk>/edit/', admin_project_edit, name='admin_project_edit'),
     path('admin-area/projects/<int:pk>/delete/', admin_project_delete, name='admin_project_delete'),
 
+    path('calendario/', calendario_eventos, name='calendario_eventos'),
+    
+
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -60,7 +60,7 @@
 /* Form focus styles */
 .form-input:focus {
   outline: none;
-  border-color: #d97706;
+  border-color: rgb(217, 119, 6);
   box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
 }
 

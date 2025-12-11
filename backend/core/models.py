@@ -201,14 +201,6 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Criado em'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Atualizado em'))
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name = _('Evento')
         verbose_name_plural = _('Eventos')
@@ -217,28 +209,24 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('event_detail', kwargs={'slug': self.slug})
-    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('event_detail', kwargs={'slug': self.slug})
+
     def get_speakers_list(self):
-        """Return list of speakers""" # DOCSTRING CORRIGIDA
         if self.speakers:
             return [speaker.strip() for speaker in self.speakers.split(',') if speaker.strip()]
         return []
-    
-    def is_full(self):
-        """Check if event is at capacity"""
-        return self.registered >= self.capacity
-    
-    def spots_remaining(self):
-        """Calculate remaining spots"""
-        return max(0, self.capacity - self.registered)
 
+    def is_full(self):
+        return self.registered >= self.capacity
+
+    def spots_remaining(self):
+        return max(0, self.capacity - self.registered)
 
 class ContactMessage(models.Model):
     """Contact form messages"""
@@ -257,6 +245,13 @@ class ContactMessage(models.Model):
     def __str__(self):
         # Apenas mostra nome e assunto; não mostra status
         return f"{self.name} - {self.subject}"
+    
+    
+class GalleryGroup(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 class GalleryImage(models.Model):
     title = models.CharField(max_length=200, verbose_name=_("Título da Imagem"))

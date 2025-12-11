@@ -1,55 +1,56 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
-{% block title %}Galeria - NEABI{% endblock %}
+
+{% block title %}Galeria de Eventos - NEABI{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-white">
 
-    <section class="py-16 px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Nossa Galeria de Eventos
-        </h1>
-        <p class="text-xl text-gray-600 max-w-4xl mx-auto">
-            Confira os momentos e atividades do NEABI.
-        </p>
-    </section>
+<div class="px-4 sm:px-6 lg:px-8 my-12">
+    
+    <h1 class="text-4xl font-bold text-center text-gray-900 mb-12">
+        Galeria de Eventos
+    </h1>
 
-    <section class="pb-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            
-            {% if images %}
-                {% for img in images %}
-                <div class="rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300">
+    {% if events %}
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                    <a href="{{ img.image.url }}" target="_blank">
-                        <img src="{{ img.image.url }}" 
-                            alt="{{ img.title }}" 
-                            class="w-full h-64 object-cover cursor-pointer">
-                    </a>
+            {% for event in events %}
+            <div class="bg-gray-50 rounded-xl shadow-lg overflow-hidden">
 
-                    <div class="p-4 bg-gray-50">
-                        <p class="text-lg font-semibold text-gray-800">{{ img.title }}</p>
-
-                        {% if img.event %}
-                        <p class="text-sm text-green-700 font-medium">
-                            Evento: {{ img.event.title }}
-                        </p>
-                        {% endif %}
-
-                        <p class="text-sm text-gray-500">{{ img.description }}</p>
+                <!-- CAPA DO EVENTO -->
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" class="w-full h-56 object-cover" alt="Imagem do evento">
+                {% else %}
+                    <div class="w-full h-56 bg-gray-300 flex items-center justify-center">
+                        <p class="text-gray-600">Sem imagem de capa</p>
                     </div>
-                </div>
-                {% endfor %}
+                {% endif %}
 
-            {% else %}
-                <p class="text-center col-span-3 text-gray-600 text-lg">
-                    Nenhuma imagem cadastrada ainda.
-                </p>
-            {% endif %}
+                <!-- CONTEÚDO -->
+                <div class="p-5">
+                    <h2 class="text-xl font-bold text-gray-800">{{ event.title }}</h2>
+
+                    <p class="text-gray-600 text-sm mt-1">
+                        {{ event.date|date:"d/m/Y" }} — {{ event.location }}
+                    </p>
+
+                    <a href="{% url 'galeria_evento' event.id %}"
+                        class="mt-4 inline-block w-full bg-green-700 text-white font-semibold px-4 py-2 rounded-lg hover:bg-green-800 text-center">
+                        Ver Fotos
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
 
         </div>
-    </section>
+
+    {% else %}
+        <p class="text-center text-gray-600 text-lg">
+            Nenhum evento com imagens encontrado.
+        </p>
+    {% endif %}
 
 </div>
+
 {% endblock %}

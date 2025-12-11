@@ -6,15 +6,16 @@
 {% block content %}
 
 <!-- Hero Section -->
-<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white shadow-sm">
+<!-- Hero Section -->
+<section class="py-16 px-4 sm:px-6 lg:px-8" style="background-color: rgb(255, 158, 39);">
     <div class="max-w-7xl mx-auto text-center mb-10">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
-            Blog NEABI -
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-red-700">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-black mb-6">
+            Blog NEABI - 
+            <span class="text-black">
                 Reflexões sobre Diversidade
             </span>
         </h1>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-xl text-black/90 max-w-3xl mx-auto">
             Artigos, pesquisas e discussões sobre questões étnico-raciais,
             diversidade cultural e inclusão no ambiente acadêmico e na sociedade brasileira.
         </p>
@@ -53,14 +54,11 @@
                     </a>
 
                     <!-- META -->
-<<<<<<< HEAD
                     Por {{ post.author.get_full_name|default:post.author.username }}
 
-=======
                     <p class="text-sm text-gray-600 mb-6">
                         Por {{ post.author.get_full_name|default:post.author.username }} • {{ post.published_date|date:"d \\d\\e F \\d\\e Y" }}
                     </p>
->>>>>>> e8e256d15dac08267e18b04b354082cb40e1fb86
 
 
                     <!-- RESUMO -->

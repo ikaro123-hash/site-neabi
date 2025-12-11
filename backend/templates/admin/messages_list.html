@@ -26,7 +26,13 @@
                     <td class="px-6 py-4">{{ msg.name }}</td>
                     <td class="px-6 py-4">{{ msg.email }}</td>
                     <td class="px-6 py-4">{{ msg.subject }}</td>
-                    <td class="px-6 py-4 text-gray-700">{{ msg.message|truncatechars:50 }}</td>
+                    <td class="px-6 py-4 text-gray-700">
+                        <a href="{% url 'admin_message_detail' msg.id %}" 
+                        class="text-blue-600 hover:underline">
+                            {{ msg.message|truncatechars:50 }}
+                        </a>
+                    </td>
+
 
                     <td class="px-6 py-4 text-center" id="status-{{ msg.id }}">
                         {% if msg.is_read %}

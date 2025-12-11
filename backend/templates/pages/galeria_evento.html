@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ event.title }} - Galeria{% endblock %}
+
+{% block content %}
+
+<section class="px-4 sm:px-6 lg:px-8 my-12">
+    <div class="max-w-7xl mx-auto">
+
+        <h1 class="text-4xl font-bold mb-6">{{ event.title }}</h1>
+        <p class="text-gray-600 mb-8">{{ event.description }}</p>
+
+        <!-- BOTÃO VERDE BONITO -->
+        <a href="{% url 'galeria' %}" 
+           class="inline-block mb-8 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg transition">
+            ← Voltar para todos os eventos
+        </a>
+
+        {% if images %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+                {% for img in images %}
+                <div class="bg-white shadow rounded-lg overflow-hidden cursor-pointer"
+                     onclick="openModal('{{ img.image.url }}')">
+
+                    <img src="{{ img.image.url }}" class="w-full h-64 object-cover">
+
+                    <div class="p-3">
+                        <p class="font-semibold">{{ img.title }}</p>
+                        <p class="text-sm text-gray-600">{{ img.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+            <p class="text-gray-600 text-lg">
+                Nenhuma foto encontrada para este evento.
+            </p>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- MODAL PARA ABRIR IMAGEM GRANDE -->
+<div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <span class="absolute top-6 right-10 text-white text-4xl cursor-pointer"
+          onclick="closeModal()">×</span>
+
+    <img id="modalImage" src="" class="max-h-[90vh] max-w-[90vw] rounded-lg shadow-2xl">
+</div>
+
+<!-- SCRIPT DO MODAL -->
+<script>
+function openModal(imgUrl) {
+    document.getElementById("modalImage").src = imgUrl;
+    document.getElementById("imageModal").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("imageModal").classList.add("hidden");
+}
+</script>
+
+{% endblock %}
