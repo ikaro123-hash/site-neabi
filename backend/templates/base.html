@@ -6,10 +6,8 @@
 
     {% include 'includes/meta_tags.html' %}
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Configuração do Tailwind personalizada -->
     <script>
       tailwind.config = {
         theme: {
@@ -36,28 +34,43 @@
     <title>
       {% block title %}NEABI - Núcleo de Estudos Afro-Brasileiros e Indígenas{% endblock %}
     </title>
+
+    <style>
+      /* Estilos de Acessibilidade NEABI */
+      .alto-contraste {
+        background-color: #000 !important;
+        color: #fff !important;
+      }
+      .alto-contraste a {
+        color: #0ff !important;
+      }
+      .alto-contraste button {
+        background-color: #fff !important;
+        color: #000 !important;
+      }
+
+      /* CORREÇÃO PARA O VLIBRAS NÃO FICAR BRANCO/INVISÍVEL */
+      [vw] {
+        z-index: 99999 !important;
+        display: block !important;
+      }
+    </style>
   </head>
   <body class="min-h-screen bg-gradient-to-b from-amber-50 to-white">
     {% include 'includes/navigation.html' %}
-
-    <!-- REMOVIDO: Bloco de notificações do Django messages -->
 
     <main>{% block content %} {% endblock %}</main>
 
     {% include 'includes/footer.html' %}
 
     <script src="{% static 'js/main.js' %}"></script>
-
     {% block extra_js %}{% endblock %}
 
-   <!-- Botão de Acessibilidade NEABI -->
-    <div id="acessibilidade" class="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-2">
-      <!-- Botão principal -->
+   <div id="acessibilidade" class="fixed bottom-24 right-5 z-50 flex flex-col items-center gap-2">
       <button id="btnAcessibilidade" class="bg-amber-600 text-white rounded-full p-3 shadow-lg hover:bg-amber-700" aria-label="Abrir menu de acessibilidade">
         ♿
       </button>
 
-      <!-- Menu de opções -->
       <div id="menuAcessibilidade" class="hidden flex flex-col bg-white border rounded-lg shadow-lg p-4 gap-2 w-40" aria-label="Opções de acessibilidade">
         <button onclick="toggleContraste()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Alto Contraste</button>
         <button onclick="aumentarFonte()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">A+</button>
@@ -67,42 +80,51 @@
       </div>
     </div>
 
-
-
-  </body>
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+      new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    </body>
 </html>
-<script>
 
-  
+<script>
+// Lógica do Menu Mobile
 document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("mobile-menu-button");
     const menu = document.getElementById("mobile-menu");
     const menuOpen = document.getElementById("menu-open");
     const menuClose = document.getElementById("menu-close");
 
-    btn.addEventListener("click", () => {
-        menu.classList.toggle("hidden");    // Abre / fecha menu
-        menuOpen.classList.toggle("hidden"); // Ícone hamburguer
-        menuClose.classList.toggle("hidden"); // Ícone X
-    });
+    if (btn) {
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+            menuOpen.classList.toggle("hidden");
+            menuClose.classList.toggle("hidden");
+        });
+    }
 });
 </script>
 
-<!-- Script do botão -->
 <script>
+// Lógica do Menu de Acessibilidade NEABI
 document.addEventListener("DOMContentLoaded", () => {
   const btnAcess = document.getElementById("btnAcessibilidade");
   const menuAcess = document.getElementById("menuAcessibilidade");
 
-  // Toggle do menu
-  btnAcess.addEventListener("click", () => {
-    menuAcess.classList.toggle("hidden");
-  });
+  if (btnAcess) {
+    btnAcess.addEventListener("click", () => {
+      menuAcess.classList.toggle("hidden");
+    });
+  }
 
-  // Fonte inicial
+  // Configurações de Voz e Fonte
   let fontSize = 100;
-
-  // Text-to-Speech
   const synth = window.speechSynthesis;
   let utterThis;
 
@@ -134,19 +156,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<!-- Estilo de alto contraste -->
-<style>
-.alto-contraste {
-  background-color: #000 !important;
-  color: #fff !important;
-}
 
-.alto-contraste a {
-  color: #0ff !important;
-}
-
-.alto-contraste button {
-  background-color: #fff !important;
-  color: #000 !important;
-}
-</style>

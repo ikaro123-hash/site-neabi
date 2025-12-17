@@ -261,3 +261,24 @@ select:focus {
 .skip-link:focus {
   top: 0;
 }
+
+/* ====== FIX VLibras ====== */
+[vw],
+[vw-access-button],
+[vw-plugin-wrapper] {
+  all: initial !important;
+  box-sizing: border-box !important;
+}
+
+[vw] {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
+[vw-access-button] {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 50% !important;
+  background-color: #006400 !important;
+  cursor: pointer !important;
+}
