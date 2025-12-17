@@ -1,0 +1,92 @@
+/* ----------------------------- */
+/* Estilos do FullCalendar NEABI */
+/* ----------------------------- */
+
+/* ===== BOTÕES PADRÃO ===== */
+.fc .fc-button {
+  background-color: #386641 !important; /* Verde NEABI */
+  border: none !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  padding: 0.45rem 1rem !important;
+  transition: 0.2s;
+  font-weight: 500 !important;
+}
+
+.fc .fc-button:hover {
+  background-color: #2f5337 !important; /* Verde escuro */
+}
+
+.fc .fc-button:disabled {
+  background-color: #9ca3af !important;
+  cursor: not-allowed !important;
+}
+
+/* ===== BOTÃO HOJE (LARANJA) ===== */
+.fc-today-button {
+    background-color: #f97316 !important;  /* Laranja NEABI */
+    border-color: #f97316 !important;
+    color: white !important;
+}
+
+.fc-today-button:hover {
+    background-color: #ea580c !important; /* Laranja mais forte */
+    border-color: #ea580c !important;
+}
+
+/* ===== TÍTULO DO CALENDÁRIO ===== */
+.fc-toolbar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* ===== AGRUPAMENTO DE BOTÕES ===== */
+.fc .fc-button-group .fc-button {
+  background-color: #386641 !important;
+}
+
+/* ===== EVENTOS NO CALENDÁRIO ===== */
+.fc-daygrid-event {
+  background-color: #d97706 !important; /* Laranja queimado */
+  border: none !important;
+  color: white !important;
+  padding: 2px 4px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+/* ===== MODAL (garante que não aparece ao carregar) ===== */
+#eventModal {
+  display: none;
+}
+
+/* =============================== */
+/* LISTA - LIST VIEW (List Month) */
+/* =============================== */
+
+.fc-list-event-title {
+    font-weight: 700;
+    color: #b45309; /* Laranja queimado */
+}
+
+.fc-list-event-time {
+    font-weight: 600;
+    color: #444;
+}
+
+.fc-list-table td {
+    padding: 12px 14px !important;
+    font-size: 15px;
+}
+
+.fc-theme-standard .fc-list {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.fc-list-day-cushion {
+    background: #fff7ed !important; /* tom laranja claro */
+    font-weight: bold;
+}
