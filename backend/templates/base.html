@@ -1,159 +1,158 @@
+{% load static %}
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    {% include 'includes/meta_tags.html' %}
+  {% include 'includes/meta_tags.html' %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              amber: {
-                50: "#fffbeb",
-                100: "#fef3c7",
-                600: "#d97706",
-                700: "#b45309",
-              },
-              red: {
-                700: "#b91c1c",
-              },
+  <!-- Tailwind CDN (ok por enquanto) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            amber: {
+              50: "#fffbeb",
+              100: "#fef3c7",
+              600: "#d97706",
+              700: "#b45309",
+            },
+            red: {
+              700: "#b91c1c",
             },
           },
         },
-      };
-    </script>
+      },
+    };
+  </script>
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+  <!-- CSS local -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
-    <title>
-      {% block title %}NEABI - Núcleo de Estudos Afro-Brasileiros e Indígenas{% endblock %}
-    </title>
+  <title>
+    {% block title %}
+      NEABI - Núcleo de Estudos Afro-Brasileiros e Indígenas
+    {% endblock %}
+  </title>
 
-    <style>
-      /* Estilos de Acessibilidade NEABI */
-      .alto-contraste {
-        background-color: #000 !important;
-        color: #fff !important;
-      }
-      .alto-contraste a {
-        color: #0ff !important;
-      }
-      .alto-contraste button {
-        background-color: #fff !important;
-        color: #000 !important;
-      }
-
-      /* CORREÇÃO PARA O VLIBRAS NÃO FICAR BRANCO/INVISÍVEL */
-      [vw] {
-        z-index: 99999 !important;
-        display: block !important;
-      }
-    </style>
-  </head>
-  <body class="min-h-screen bg-gradient-to-b from-amber-50 to-white">
-    {% include 'includes/navigation.html' %}
-
-    <main>{% block content %} {% endblock %}</main>
-
-    {% include 'includes/footer.html' %}
-
-    <script src="{% static 'js/main.js' %}"></script>
-    {% block extra_js %}{% endblock %}
-
-   <div id="acessibilidade" class="fixed bottom-24 right-5 z-50 flex flex-col items-center gap-2">
-      <button id="btnAcessibilidade" class="bg-amber-600 text-white rounded-full p-3 shadow-lg hover:bg-amber-700" aria-label="Abrir menu de acessibilidade">
-        ♿
-      </button>
-
-      <div id="menuAcessibilidade" class="hidden flex flex-col bg-white border rounded-lg shadow-lg p-4 gap-2 w-40" aria-label="Opções de acessibilidade">
-        <button onclick="toggleContraste()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Alto Contraste</button>
-        <button onclick="aumentarFonte()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">A+</button>
-        <button onclick="diminuirFonte()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">A-</button>
-        <button onclick="lerTexto()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Ler Texto</button>
-        <button onclick="pausarTexto()" class="px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-700">Pausar Leitura</button>
-      </div>
-    </div>
-
-    <div vw class="enabled">
-      <div vw-access-button class="active"></div>
-      <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-      </div>
-    </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-      new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
-    </body>
-</html>
-
-<script>
-// Lógica do Menu Mobile
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("mobile-menu-button");
-    const menu = document.getElementById("mobile-menu");
-    const menuOpen = document.getElementById("menu-open");
-    const menuClose = document.getElementById("menu-close");
-
-    if (btn) {
-        btn.addEventListener("click", () => {
-            menu.classList.toggle("hidden");
-            menuOpen.classList.toggle("hidden");
-            menuClose.classList.toggle("hidden");
-        });
+  <!-- Acessibilidade -->
+  <style>
+    .alto-contraste {
+      background-color: #000 !important;
+      color: #fff !important;
     }
-});
-</script>
+    .alto-contraste a {
+      color: #0ff !important;
+    }
+    .alto-contraste button {
+      background-color: #fff !important;
+      color: #000 !important;
+    }
 
-<script>
-// Lógica do Menu de Acessibilidade NEABI
-document.addEventListener("DOMContentLoaded", () => {
-  const btnAcess = document.getElementById("btnAcessibilidade");
-  const menuAcess = document.getElementById("menuAcessibilidade");
+    /* Garantir visibilidade do VLibras */
+    [vw],
+    [vw-access-button] {
+      z-index: 99999 !important;
+      display: block !important;
+    }
+  </style>
+</head>
 
-  if (btnAcess) {
-    btnAcess.addEventListener("click", () => {
-      menuAcess.classList.toggle("hidden");
+<body class="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+
+  {% include 'includes/navigation.html' %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'includes/footer.html' %}
+
+  <!-- JS principal -->
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+
+  <!-- MENU DE ACESSIBILIDADE NEABI -->
+  <div id="acessibilidade" class="fixed bottom-24 right-5 z-50 flex flex-col items-center gap-2">
+    <button
+      id="btnAcessibilidade"
+      class="bg-amber-600 text-white rounded-full p-3 shadow-lg hover:bg-amber-700"
+      aria-label="Abrir menu de acessibilidade"
+    >
+      ♿
+    </button>
+
+    <div
+      id="menuAcessibilidade"
+      class="hidden flex flex-col bg-white border rounded-lg shadow-lg p-4 gap-2 w-40"
+      aria-label="Opções de acessibilidade"
+    >
+      <button onclick="toggleContraste()" class="px-3 py-1 bg-gray-800 text-white rounded">Alto Contraste</button>
+      <button onclick="aumentarFonte()" class="px-3 py-1 bg-gray-800 text-white rounded">A+</button>
+      <button onclick="diminuirFonte()" class="px-3 py-1 bg-gray-800 text-white rounded">A-</button>
+      <button onclick="lerTexto()" class="px-3 py-1 bg-gray-800 text-white rounded">Ler Texto</button>
+      <button onclick="pausarTexto()" class="px-3 py-1 bg-gray-800 text-white rounded">Pausar Leitura</button>
+    </div>
+  </div>
+
+  <!-- VLibras OFICIAL -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
+  <!-- JS de Acessibilidade -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const btnAcess = document.getElementById("btnAcessibilidade");
+      const menuAcess = document.getElementById("menuAcessibilidade");
+
+      if (btnAcess) {
+        btnAcess.addEventListener("click", () => {
+          menuAcess.classList.toggle("hidden");
+        });
+      }
+
+      let fontSize = 100;
+      const synth = window.speechSynthesis;
+      let utterThis;
+
+      window.aumentarFonte = () => {
+        fontSize += 10;
+        document.body.style.fontSize = fontSize + "%";
+      };
+
+      window.diminuirFonte = () => {
+        fontSize -= 10;
+        document.body.style.fontSize = fontSize + "%";
+      };
+
+      window.toggleContraste = () => {
+        document.body.classList.toggle("alto-contraste");
+      };
+
+      window.lerTexto = () => {
+        if (synth.speaking) synth.cancel();
+        utterThis = new SpeechSynthesisUtterance(document.body.innerText);
+        utterThis.lang = "pt-BR";
+        synth.speak(utterThis);
+      };
+
+      window.pausarTexto = () => {
+        if (synth.speaking) synth.pause();
+      };
     });
-  }
+  </script>
 
-  // Configurações de Voz e Fonte
-  let fontSize = 100;
-  const synth = window.speechSynthesis;
-  let utterThis;
-
-  window.aumentarFonte = function() {
-    fontSize += 10;
-    document.body.style.fontSize = fontSize + "%";
-  }
-
-  window.diminuirFonte = function() {
-    fontSize -= 10;
-    document.body.style.fontSize = fontSize + "%";
-  }
-
-  window.toggleContraste = function() {
-    document.body.classList.toggle("alto-contraste");
-  }
-
-  window.lerTexto = function() {
-    if(synth.speaking) synth.cancel();
-    const texto = document.body.innerText;
-    utterThis = new SpeechSynthesisUtterance(texto);
-    utterThis.lang = 'pt-BR';
-    synth.speak(utterThis);
-  }
-
-  window.pausarTexto = function() {
-    if(synth.speaking) synth.pause();
-  }
-});
-</script>
-
-
+</body>
+</html>
