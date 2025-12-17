@@ -3,61 +3,109 @@
 {% block title %}Gerenciar Projetos - Admin{% endblock %}
 
 {% block content %}
-<section class="py-10 px-4 sm:px-6 lg:px-8">
+<section class="py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto">
 
     <!-- Cabeçalho -->
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Gerenciar Projetos</h1>
+    <div class="flex justify-between items-center mb-10">
+      <h1 class="text-4xl font-extrabold text-green-800 flex items-center">
+        <i class="fas fa-folder-open mr-3 text-green-600"></i>
+        Gerenciar Projetos
+      </h1>
 
       <a
         href="{% url 'admin_project_create' %}"
-        class="px-5 py-3 bg-green-700 text-white rounded-xl shadow hover:bg-green-800"
+        class="flex items-center gap-2 px-6 py-3 bg-green-700 text-white
+               rounded-xl shadow-lg hover:bg-green-800 hover:shadow-xl
+               transition font-semibold"
       >
-        + Novo Projeto
+        <i class="fas fa-plus"></i>
+        Novo Projeto
       </a>
     </div>
 
     <!-- Tabela -->
-    <div class="bg-white shadow rounded-xl overflow-hidden">
-      <table class="min-w-full divide-y divide-gray-300">
-        <thead class="bg-gray-100">
+    <div class="bg-white shadow-2xl rounded-2xl border border-gray-200 overflow-x-auto">
+      <table class="w-full text-base">
+        <thead class="bg-gray-100 text-gray-800 uppercase text-sm">
           <tr>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Título</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Categoria</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Criado em</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Status</th>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Link</th>
-            <th class="px-6 py-3 text-right text-sm font-semibold text-gray-900">Ações</th>
+            <th class="px-6 py-4 text-left font-semibold">Título</th>
+            <th class="px-6 py-4 text-left font-semibold">Categoria</th>
+            <th class="px-6 py-4 text-left font-semibold">Criado em</th>
+            <th class="px-6 py-4 text-center font-semibold">Status</th>
+            <th class="px-6 py-4 text-center font-semibold">Link</th>
+            <th class="px-6 py-4 text-right font-semibold">Ações</th>
           </tr>
         </thead>
 
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y">
           {% for project in projects %}
-          <tr>
-            <td class="px-6 py-4 text-gray-800">{{ project.title }}</td>
-            <td class="px-6 py-4 text-gray-600">{{ project.category|default:"Sem categoria" }}</td>
-            <td class="px-6 py-4 text-gray-600">{{ project.created_at|date:"d/m/Y" }}</td>
-            <td class="px-6 py-4 text-gray-600">{{ project.status|yesno:"Ativo,Inativo" }}</td>
+          <tr class="hover:bg-gray-50 transition">
 
-            <td class="px-6 py-4">
-              {% if project.link_to_join %}
-                <a href="{{ project.link_to_join }}" target="_blank" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
-                  Inscrição
-                </a>
+            <td class="px-6 py-4 font-semibold text-gray-800">
+              {{ project.title }}
+            </td>
+
+            <td class="px-6 py-4 text-gray-600">
+              {{ project.category|default:"Sem categoria" }}
+            </td>
+
+            <td class="px-6 py-4 text-gray-600">
+              {{ project.created_at|date:"d/m/Y" }}
+            </td>
+
+            <!-- Status -->
+            <td class="px-6 py-4 text-center">
+              {% if project.status %}
+                <span class="px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+                  Ativo
+                </span>
               {% else %}
-                -
+                <span class="px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-700">
+                  Inativo
+                </span>
               {% endif %}
             </td>
 
-            <td class="px-6 py-4 text-right space-x-3">
-              <a href="{% url 'admin_project_edit' project.id %}" class="text-blue-600 hover:text-blue-800 font-medium">Editar</a>
-              <a href="{% url 'admin_project_delete' project.id %}" class="text-red-600 hover:text-red-800 font-medium">Excluir</a>
+            <!-- Link -->
+            <td class="px-6 py-4 text-center">
+              {% if project.link_to_join %}
+                <a
+                  href="{{ project.link_to_join }}"
+                  target="_blank"
+                  class="inline-flex items-center gap-1 px-4 py-1.5
+                         bg-blue-600 text-white rounded-lg
+                         hover:bg-blue-700 transition text-sm font-semibold"
+                >
+                  <i class="fas fa-link"></i>
+                  Inscrição
+                </a>
+              {% else %}
+                <span class="text-gray-400 italic">—</span>
+              {% endif %}
             </td>
+
+            <!-- Ações -->
+            <td class="px-6 py-4 text-right space-x-4">
+              <a
+                href="{% url 'admin_project_edit' project.id %}"
+                class="text-blue-600 hover:text-blue-800 font-semibold"
+              >
+                Editar
+              </a>
+              <a
+                href="{% url 'admin_project_delete' project.id %}"
+                class="text-red-600 hover:text-red-800 font-semibold"
+                onclick="return confirm('Deseja realmente excluir este projeto?')"
+              >
+                Excluir
+              </a>
+            </td>
+
           </tr>
           {% empty %}
           <tr>
-            <td colspan="6" class="px-6 py-6 text-center text-gray-500">
+            <td colspan="6" class="px-6 py-10 text-center text-gray-500 text-lg">
               Nenhum projeto cadastrado ainda.
             </td>
           </tr>

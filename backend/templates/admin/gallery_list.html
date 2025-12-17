@@ -1,100 +1,107 @@
 {% extends 'base.html' %}
 
-{% block title %}Galeria{% endblock %}
+{% block title %}Gerenciar Galeria{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto py-10">
+<div class="max-w-6xl mx-auto py-12 px-4">
 
-    <h1 class="text-3xl font-bold mb-8 text-gray-800">Gerenciar Galeria</h1>
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-extrabold text-green-800 flex items-center">
+            <i class="fas fa-images mr-3 text-green-600"></i>
+            Gerenciar Galeria
+        </h1>
 
-    <!-- Botão de adicionar imagem -->
-    <div class="flex justify-end mb-6">
         <a href="{% url 'admin_gallery_create' %}"
-           class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 font-semibold">
+           class="inline-flex items-center gap-2 px-5 py-3 rounded-lg
+                  bg-green-600 text-white font-semibold
+                  hover:bg-green-700 shadow-lg transition">
+            <i class="fas fa-plus"></i>
             Adicionar Imagem
         </a>
     </div>
 
-    <table class="w-full bg-white shadow rounded overflow-hidden">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="border px-4 py-2 text-left">Imagem</th>
-                <th class="border px-4 py-2 text-left">Título</th>
-                <th class="border px-4 py-2 text-left">Evento</th>
-                <th class="border px-4 py-2 text-left">Publicado</th>
-                <th class="border px-4 py-2 text-left">Data Upload</th>
-                <th class="border px-4 py-2 text-center">Ações</th>
-            </tr>
-        </thead>
+    <!-- Tabela -->
+    <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+                <tr>
+                    <th class="px-4 py-3 text-left">Imagem</th>
+                    <th class="px-4 py-3 text-left">Título</th>
+                    <th class="px-4 py-3 text-left">Evento</th>
+                    <th class="px-4 py-3 text-left">Publicado</th>
+                    <th class="px-4 py-3 text-left">Upload</th>
+                    <th class="px-4 py-3 text-center">Ações</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            {% for item in images %}
-            <tr class="hover:bg-gray-50">
+            <tbody class="divide-y">
+                {% for item in images %}
+                <tr class="hover:bg-gray-50 transition">
 
-                <!-- Miniatura -->
-                <td class="border px-4 py-2">
-                    {% if item.image %}
-                        <img src="{{ item.image.url }}" class="h-16 w-auto rounded shadow">
-                    {% else %}
-                        <span class="text-gray-500">Sem imagem</span>
-                    {% endif %}
-                </td>
-
-                <!-- Título -->
-                <td class="border px-4 py-2 font-semibold">
-                    {{ item.title }}
-                </td>
-
-                <!-- Evento relacionado -->
-                <td class="border px-4 py-2">
-                    {% if item.event %}
-                        {{ item.event.title }}
-                    {% else %}
-                        <span class="text-gray-500 italic">Nenhum</span>
-                    {% endif %}
-                </td>
-
-                <!-- Publicado -->
-                <td class="border px-4 py-2">
-                    {% if item.published %}
-                        <span class="text-green-700 font-semibold">Sim</span>
-                    {% else %}
-                        <span class="text-red-600 font-semibold">Não</span>
-                    {% endif %}
-                </td>
-
-                <!-- Data do upload -->
-                <td class="border px-4 py-2 text-gray-700">
-                    {{ item.uploaded_at|date:"d/m/Y H:i" }}
-                </td>
-
-                <!-- Ações -->
-                <td class="border px-4 py-2 text-center space-x-3">
-
-                    <a href="{% url 'admin_gallery_update' item.pk %}"
-                       class="text-blue-600 hover:underline font-medium">
-                        Editar
-                    </a>
-
-                    <td class="border px-4 py-2 text-center space-x-3">
-                        <a href="{% url 'admin_gallery_delete' item.pk %}"
-                            class="text-red-600 hover:underline font-medium"
-                            onclick="return confirm('Tem certeza que deseja excluir esta imagem?');">
-                            Excluir
-                        </a>
+                    <!-- Imagem -->
+                    <td class="px-4 py-3">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}"
+                                 class="h-16 w-24 object-cover rounded-lg shadow">
+                        {% else %}
+                            <span class="text-gray-400 italic">Sem imagem</span>
+                        {% endif %}
                     </td>
 
-                </td>
-            </tr>
+                    <!-- Título -->
+                    <td class="px-4 py-3 font-semibold text-gray-800">
+                        {{ item.title }}
+                    </td>
 
-            {% empty %}
-            <tr>
-                <td colspan="6" class="text-center py-6 text-gray-500">
-                    Nenhuma imagem cadastrada.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <!-- Evento -->
+                    <td class="px-4 py-3">
+                        {% if item.event %}
+                            {{ item.event.title }}
+                        {% else %}
+                            <span class="text-gray-400 italic">Nenhum</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Publicado -->
+                    <td class="px-4 py-3">
+                        {% if item.published %}
+                            <span class="text-green-700 font-semibold">Sim</span>
+                        {% else %}
+                            <span class="text-red-600 font-semibold">Não</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Data -->
+                    <td class="px-4 py-3 text-gray-600">
+                        {{ item.uploaded_at|date:"d/m/Y H:i" }}
+                    </td>
+
+                    <!-- Ações -->
+                    <td class="px-4 py-3 text-center">
+                        <div class="flex justify-center gap-4">
+                            <a href="{% url 'admin_gallery_update' item.pk %}"
+                               class="text-blue-600 font-semibold hover:underline">
+                                Editar
+                            </a>
+
+                            <a href="{% url 'admin_gallery_delete' item.pk %}"
+                               class="text-red-600 font-semibold hover:underline"
+                               onclick="return confirm('Tem certeza que deseja excluir esta imagem?');">
+                                Excluir
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-10 text-gray-500">
+                        Nenhuma imagem cadastrada.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

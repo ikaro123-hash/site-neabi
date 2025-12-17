@@ -107,7 +107,6 @@ class BlogPost(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name=_('Categoria'))
     tags = models.ManyToManyField('Tag', blank=True, verbose_name=_('Tags'))
     published_date = models.DateTimeField(default=timezone.now, verbose_name=_('Data de publicação'))
-    read_time = models.CharField(max_length=20, default='5 min', verbose_name=_('Tempo de leitura'))
     image = models.ImageField(upload_to='blog_images/', blank=True, null=True, verbose_name=_('Imagem'))
     views = models.PositiveIntegerField(default=0, verbose_name=_('Visualizações'))
     likes = models.PositiveIntegerField(default=0, verbose_name=_('Curtidas'))

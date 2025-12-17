@@ -1,36 +1,70 @@
 {% extends 'base.html' %}
 
-{% block title %}Tags - Admin{% endblock %}
+{% block title %}Gerenciar Tags{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto py-10">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Tags</h1>
-        <a href="{% url 'admin_tag_create' %}" class="bg-green-600 text-white px-4 py-2 rounded">Nova Tag</a>
+<div class="max-w-5xl mx-auto py-12 px-4">
+
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-extrabold text-green-800 flex items-center">
+            <i class="fas fa-tags mr-3 text-green-600"></i>
+            Gerenciar Tags
+        </h1>
+
+        <a href="{% url 'admin_tag_create' %}"
+           class="inline-flex items-center gap-2 px-5 py-3 rounded-lg
+                  bg-green-600 text-white font-semibold
+                  hover:bg-green-700 shadow-lg transition">
+            <i class="fas fa-plus"></i>
+            Nova Tag
+        </a>
     </div>
 
-    <table class="w-full border border-gray-300 rounded">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="border px-4 py-2 text-left">Nome</th>
-                <th class="border px-4 py-2 text-center">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tag in tags %}
-            <tr class="hover:bg-gray-50">
-                <td class="border px-4 py-2">{{ tag.name }}</td>
-                <td class="border px-4 py-2 text-center space-x-2">
-                    <a href="{% url 'admin_tag_edit' tag.pk %}" class="text-blue-600 hover:underline">Editar</a>
-                    <a href="{% url 'admin_tag_delete' tag.pk %}" class="text-red-600 hover:underline">Excluir</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="2" class="text-center py-4 text-gray-500">Nenhuma tag encontrada.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Tabela -->
+    <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+                <tr>
+                    <th class="px-6 py-4 text-left">Nome da Tag</th>
+                    <th class="px-6 py-4 text-center">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y">
+                {% for tag in tags %}
+                <tr class="hover:bg-gray-50 transition">
+
+                    <!-- Nome -->
+                    <td class="px-6 py-4 font-semibold text-gray-800">
+                        {{ tag.name }}
+                    </td>
+
+                    <!-- Ações -->
+                    <td class="px-6 py-4">
+                        <div class="flex justify-center gap-5">
+                            <a href="{% url 'admin_tag_edit' tag.pk %}"
+                               class="text-blue-600 font-semibold hover:underline">
+                                Editar
+                            </a>
+
+                            <a href="{% url 'admin_tag_delete' tag.pk %}"
+                               class="text-red-600 font-semibold hover:underline"
+                               onclick="return confirm('Tem certeza que deseja excluir esta tag?');">
+                                Excluir
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="text-center py-10 text-gray-500">
+                        Nenhuma tag encontrada.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

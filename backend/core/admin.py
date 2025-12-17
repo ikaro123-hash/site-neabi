@@ -58,7 +58,7 @@ class BlogPostAdmin(admin.ModelAdmin):
             'fields': ('title', 'slug', 'excerpt', 'content')
         }),
         ('Metadados', {
-            'fields': ('author', 'category', 'tags', 'read_time')
+            'fields': ('author', 'category', 'tags')
         }),
         ('Publicação', {
             'fields': ('status', 'featured', 'published_date')

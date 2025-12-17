@@ -77,7 +77,7 @@ class BlogPostForm(forms.ModelForm):
         model = BlogPost
         fields = [
             'title', 'excerpt', 'content', 'category', 'tags', 
-            'read_time', 'image', 'featured', 'status', 'author'
+             'image', 'featured', 'status', 'author'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Título do post'}),

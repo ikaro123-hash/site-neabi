@@ -69,7 +69,6 @@
 <!-- ==================== SCRIPT COMPLETO ==================== -->
 <script>
 
-
 document.addEventListener('DOMContentLoaded', function () {
 
     var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
@@ -91,6 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
             list: "Lista"
         },
 
+        /* 🔹 TEXTO QUANDO NÃO HÁ EVENTOS */
+        noEventsContent: "Nenhum evento para exibir",
+
         views: {
             dayGridMonth: { allDaySlot: false },
             dayGridWeek: { allDaySlot: false }
@@ -103,23 +105,21 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         eventClick: function(info) {
-            // Redireciona direto para a URL do evento
             if (info.event.url) {
                 window.location.href = info.event.url;
             }
         },
 
         eventDidMount: function(info) {
-            if(info.event.allDay) {
+            if (info.event.allDay) {
                 const timeEl = info.el.querySelector('.fc-event-time');
-                if(timeEl) timeEl.innerText = 'Dia Inteiro';
+                if (timeEl) timeEl.innerText = 'Dia Inteiro';
             }
         }
     });
 
     calendar.render();
 });
-
 /* ==================== MODAL ==================== */
 
 function abrirModal(event) {
